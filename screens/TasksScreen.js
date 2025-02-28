@@ -1,12 +1,26 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import ProjectTasksDisplay from '../components/ProjectTasksDisplay';
+import ProjectSelector from '../components/ProjectSelector';
+import { projets } from '../data/projets';
 
-const Tasks = () => {
+const TasksScreen = ({route}) => {
+  const initialProject = route.params?.projet ? route.params.projet : projets[0];
+  const [selectedProject, setSelectedProject] = useState(initialProject);
+  useEffect(() => {
+    if (route.params?.projet) {
+      setSelectedProject(route.params.projet);
+    }
+  }, [route.params?.projet]);
   return (
     <View>
-      <Text>Tasks Screen</Text>
+      <ProjectSelector selectedProject={selectedProject} onProjectChange={setSelectedProject}></ProjectSelector>
+      <ProjectTasksDisplay projet={selectedProject}></ProjectTasksDisplay>
     </View>
   );
 };
 
-export default Tasks;
+const styles = StyleSheet.create({
+})
+
+export default TasksScreen;
