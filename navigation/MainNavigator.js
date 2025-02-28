@@ -3,11 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
 import HomeScreen from '../screens/HomeScreen.js';
-import Tasks from '../screens/TasksScreen.js';
+import TaskNavigator from './TaskNavigator.js';
 import AccountScreen from '../screens/AccountScreen.js';
 
 const Tab = createBottomTabNavigator();
-
 
 const MainNavigator = () => {
     return (
@@ -25,7 +24,7 @@ const MainNavigator = () => {
                 />
                 <Tab.Screen
                     name="Tasks" 
-                    component={Tasks}
+                    component={TaskNavigator}
                     options={{
                         tabBarLabel: 'Tâches',
                         tabBarIcon: ({ color, size }) => (

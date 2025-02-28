@@ -1,21 +1,27 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const ProjectTasksDisplay = ({ task }) => {
+    const navigation = useNavigation();
+    const navigateToTaskDetails = () => {
+        navigation.navigate('TaskDetails', { task });
+    };
+
     return (
-      <View style={styles.task}>
+    <TouchableOpacity style={styles.task} onPress={navigateToTaskDetails}>
         <Text style={styles.cardTitle}>{task.nom}</Text>
         <Text>{task.description}</Text>
         <View style={[styles.labelBottomRight, styles.label]}>
-            <Text>{task.etat.label}</Text>
+        <Text>{task.etat.label}</Text>
         </View>
         <View style={[styles.labelTopRight]}>
-            <Image
-                style={styles.avatar}
-                source={require('../assets/avatar.png')}
-            />
+        <Image
+            style={styles.avatar}
+            source={require('../assets/avatar.png')}
+        />
         </View>
-      </View>
+    </TouchableOpacity>
     );
 };
 
