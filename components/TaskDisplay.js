@@ -1,13 +1,23 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { users } from '../data/users';
+
 
 const ProjectTasksDisplay = ({ task }) => {
     const navigation = useNavigation();
     const navigateToTaskDetails = () => {
-        navigation.navigate('TaskDetails', { task });
+        navigation.navigate('TaskDetailNavigator', {screen : 'TaskDetailScreen', params : { 'task': task },});
     };
 
+    const avatarImages = {
+        "avatar1.png": require('../assets/avatar1.png'),
+        "avatar2.png": require('../assets/avatar2.png'),
+        "avatar3.png": require('../assets/avatar3.png'),
+        "avatar4.png": require('../assets/avatar4.png'),
+        "avatar5.png": require('../assets/avatar5.png'),
+      };
+    
     return (
     <TouchableOpacity style={styles.task} onPress={navigateToTaskDetails}>
         <Text style={styles.cardTitle}>{task.nom}</Text>
@@ -15,12 +25,14 @@ const ProjectTasksDisplay = ({ task }) => {
         <View style={[styles.labelBottomRight, styles.label]}>
         <Text>{task.etat.label}</Text>
         </View>
-        <View style={[styles.labelTopRight]}>
-        <Image
-            style={styles.avatar}
-            source={require('../assets/avatar.png')}
-        />
-        </View>
+        {task.userId && (
+            <View style={[styles.labelTopRight]}>
+            <Image
+                style={styles.avatar}
+                source={avatarImages[users.find((user) => user.id === task.userId).avatar]}
+            />
+            </View>
+        )}
     </TouchableOpacity>
     );
 };

@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 5,
+    width: '80%',
   },
   input: {
     borderBottomWidth: 1,
@@ -43,15 +44,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     padding: 5,
-    borderWidth: 1,
-    borderColor: 'lightblue',
-    borderRadius: 5,
+    flex: 1,
   },
   button: {
     padding: 5,
     borderRadius: 5,
-    borderWidth: 1,
-    borderColor: 'lightblue',
     alignSelf: 'flex-start',
   },
   buttonText: {

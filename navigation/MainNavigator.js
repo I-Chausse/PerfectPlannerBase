@@ -13,33 +13,36 @@ const MainNavigator = () => {
         <NavigationContainer>
             <Tab.Navigator>
                 <Tab.Screen 
-                    name="Home" 
+                    name="HomeScreen" 
                     component={HomeScreen} 
                     options={{
                         tabBarLabel: 'Projets',
                         tabBarIcon: ({ color, size }) => (
                           <Ionicons name="apps-outline" size={size} color={color} />
                         ),
+                        title: 'Projets',
                       }}
                 />
                 <Tab.Screen
-                    name="Tasks" 
+                    name="TaskNavigator" 
                     component={TaskNavigator}
                     options={{
                         tabBarLabel: 'Tâches',
                         tabBarIcon: ({ color, size }) => (
                           <Ionicons name="list-outline" size={size} color={color} />
                         ),
+                        headerShown: false,
                       }}
                 />
                 <Tab.Screen 
-                    name="Account" 
+                    name="AccountScreen" 
                     component={AccountScreen}
                     options={{
                         tabBarLabel: 'Mon compte',
                         tabBarIcon: ({ color, size }) => (
                           <Ionicons name="person-circle-outline" size={size} color={color} />
                         ),
+                        title: 'Mon compte',
                     }}
                 />
             </Tab.Navigator>

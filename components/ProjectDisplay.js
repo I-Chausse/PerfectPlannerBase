@@ -7,7 +7,7 @@ const ProjectDisplay = ({ projet }) => {
   const navigation = useNavigation();
 
   const navigateToTasks = () => {
-    navigation.navigate('Tasks', { projet: projet });
+    navigation.navigate('TaskNavigator', {screen: 'TasksScreen', params: {projet: projet}});
   };
     return (
       <TouchableOpacity style={styles.projectContainer} onPress={navigateToTasks}>
