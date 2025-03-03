@@ -20,7 +20,7 @@ const ProjectTasksDisplay = ({ projet }) => {
 
 const styles = StyleSheet.create({
     taskContainer: {
-
+      
     }
 });
   

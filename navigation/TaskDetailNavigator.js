@@ -11,6 +11,10 @@ const TaskDetailNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         headerTintColor: '#c48820',
+        headerStyle: { 
+          height: 80,
+        },
+        headerTitleAlign: 'center',
       }}
     >
       <Stack.Screen

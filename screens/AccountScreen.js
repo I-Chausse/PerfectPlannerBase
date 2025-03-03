@@ -31,7 +31,7 @@ const AccountScreen = () => {
 };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text>Nom du compte : {editedUser.nomUtilisateur} </Text>
 
       <TouchableOpacity onPress={navigateToAvatarSelection} style={styles.avatarContainer}>
@@ -50,6 +50,14 @@ const AccountScreen = () => {
 };
 
 const styles = {
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderTopWidth: 5,
+    borderColor: '#949494',
+    backgroundColor: '#034d7b',
+  },
   avatar: {
     width: 30,
     height: 30,

@@ -20,7 +20,10 @@ const EditableField = ({ value, onSave, label }) => {
           onChangeText={setLocalValue}
         />
       ) : (
-        <Text style={styles.text}>{label}: {localValue}</Text>
+        <Text style={styles.text}>
+          <Text style={styles.textBold}>{label}</Text>
+          : {localValue}
+        </Text>
       )}
       <TouchableOpacity style={styles.button} onPress={isEditing ? handleSave : () => setIsEditing(true)}>
         <Ionicons name={isEditing ? "checkmark-circle" : "create-outline"} size={22}/>
@@ -34,7 +37,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 5,
-    width: '80%',
+    width: '100%',
   },
   input: {
     borderBottomWidth: 1,
@@ -54,6 +57,9 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 16,
+  },
+  textBold: {
+    fontWeight: 'bold',
   },
 });
 

@@ -13,7 +13,7 @@ const TasksScreen = ({route}) => {
     }
   }, [route.params?.projet]);
   return (
-    <View>
+    <View style={styles.container}>
       <ProjectSelector selectedProject={selectedProject} onProjectChange={setSelectedProject}></ProjectSelector>
       <ProjectTasksDisplay projet={selectedProject}></ProjectTasksDisplay>
     </View>
@@ -21,6 +21,13 @@ const TasksScreen = ({route}) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#034d7b',
+    borderColor: '#949494',
+    borderTopWidth: 5,
+    paddingBottom: 80,
+  },
 })
 
 export default TasksScreen;

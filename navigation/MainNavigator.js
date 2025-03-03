@@ -14,6 +14,17 @@ const MainNavigator = () => {
       <Tab.Navigator
         screenOptions={{
           headerTintColor: '#c48820',
+          tabBarActiveTintColor: '#c48820',
+          tabBarInactiveTintColor: '#949494',
+          tabBarStyle: {
+            borderTopWidth: 1,
+            borderColor: '#949494',
+            height: 60,
+          },
+          headerStyle: { 
+            height: 80,
+          },
+          headerTitleAlign: 'center',
         }}
       >
         <Tab.Screen

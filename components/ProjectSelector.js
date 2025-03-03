@@ -22,7 +22,11 @@ const ProjectSelector = ({ selectedProject, onProjectChange }) => {
 
 const styles = StyleSheet.create({
   pickerView: {
-    borderWidth: 1,
+    borderWidth: 2,
+    borderColor: '#c48820',
+    backgroundColor: '#fff',
+    margin: 10,
+    borderRadius: 20,
   }
 });
 

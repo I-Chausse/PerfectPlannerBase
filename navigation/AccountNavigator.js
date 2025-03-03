@@ -10,6 +10,10 @@ const AccountNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         headerTintColor: '#c48820',
+        headerTitleAlign: 'center',
+        headerStyle: { 
+          height: 80,
+        }
       }}
     >
       <Stack.Screen

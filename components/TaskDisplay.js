@@ -21,7 +21,7 @@ const ProjectTasksDisplay = ({ task }) => {
     return (
     <TouchableOpacity style={styles.task} onPress={navigateToTaskDetails}>
         <Text style={styles.cardTitle}>{task.nom}</Text>
-        <Text>{task.description}</Text>
+        <Text numberOfLines={3}>{task.description}</Text>
         <View style={[styles.labelBottomRight, styles.label]}>
         <Text>{task.etat.label}</Text>
         </View>
@@ -41,16 +41,18 @@ const styles = StyleSheet.create({
     cardTitle: {
         fontSize: 20,
         fontWeight: 'bold',
+        marginBottom: 15,
     },
     task: {
         fontSize: 14,
         color: 'gray',
         padding: 5,
         margin: 5,
-        borderWidth: 1,
-        borderColor: '#ccc',
+        borderWidth: 2,
+        borderColor: '#c48820',
+        borderRadius: 5,
         backgroundColor: '#fff',
-        height: 100,
+        height: 150,
     },
     labelBottomRight: {
         position: 'absolute',
@@ -66,12 +68,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#eee',
         borderRadius: 5,
         borderWidth: 1,
-        borderColor: '#ccc',
+        borderColor: '#034d7b',
+        padding: 3,
     },
     avatar: {
         width: 30,
         height: 30,
         borderRadius: 15,
+        borderColor: '#034d7b',
+        borderWidth: 1,
     },
 });
 

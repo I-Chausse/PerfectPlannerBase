@@ -5,7 +5,7 @@ import { projets } from '../data/projets';
 
 const HomeScreen = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <FlatList
         numColumns={2}
         data={projets}
@@ -17,6 +17,12 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    borderTopWidth: 5,
+    borderColor: '#949494',
+    flex: 1,
+    backgroundColor: '#034d7b',
+  },
 });
 
 export default HomeScreen;
