@@ -7,17 +7,21 @@ const Stack = createStackNavigator();
 
 const TasksNavigator = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen 
-        name="TaskScreen" 
-        component={TasksScreen} 
+    <Stack.Navigator
+      screenOptions={{
+        headerTintColor: '#c48820',
+      }}
+    >
+      <Stack.Screen
+        name="TaskScreen"
+        component={TasksScreen}
         options={{
           title: 'Tâches',
         }}
       />
-      <Stack.Screen 
-        name="TaskDetailNavigator" 
-        component={TaskDetailNavigator} 
+      <Stack.Screen
+        name="TaskDetailNavigator"
+        component={TaskDetailNavigator}
         options={{
           headerShown: false,
         }}

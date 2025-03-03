@@ -1,27 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { status } from '../data/status';
 
-const UserSelectionScreen = ({ route, navigation }) => {
-  const { users } = route.params;
+const StatusSelectionScreen = ({ route, navigation }) => {
+  const { handleSave } = route.params;
 
-  const handleUserSelect = (user) => {
-    navigation.navigate('TaskDetail', { selectedUser: user });
+  const handleStatusSelect = (status) => {
+    handleSave('etat', {code: status.code, label: status.label});
   };
 
-  const renderUserItem = ({ item }) => (
-    <TouchableOpacity style={styles.userItem} onPress={() => handleUserSelect(item)}>
-      <Image style={styles.avatar} source={avatarImages[item.avatar]} />
-      <Text>{item.nom} {item.prenom}</Text>
+  const renderStatusItem = ({ item }) => (
+    <TouchableOpacity style={styles.statusItem} onPress={() => handleStatusSelect(item)}>
+      <Text>{item.label}</Text>
     </TouchableOpacity>
   );
+  console.log('## status ##');
+  console.log(status);
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={users}
-        renderItem={renderUserItem}
-        keyExtractor={(item) => item.id.toString()}
+        data={status}
+        renderItem={renderStatusItem}
+        keyExtractor={(item) => item.code}
       />
     </View>
   );
@@ -32,19 +34,13 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
   },
-  userItem: {
+  statusItem: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
   },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 10,
-  },
 });
 
-export default UserSelectionScreen;
+export default StatusSelectionScreen;

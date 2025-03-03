@@ -42,16 +42,20 @@ const TaskDetailScreen = ({ route }) => {
     const navigateToUserSelection = () => {
         navigation.navigate('UserSelectionScreen', { users: users, handleSave: handleSave });
     };
+    const navigateToStatusSelection = () => {
+        navigation.navigate('StatusSelectionScreen', { handleSave: handleSave });
+    };
 
     return (
         <View style={styles.task}>
             <View style={styles.taskCard}>
                 <EditableText value={editedTask.nom} onSave={(value) => handleSave('nom', value)} label="Titre" />
                 <EditableText value={editedTask.description} onSave={(value) => handleSave('description', value)} label="Description" />
-                <View style={[styles.labelBottomRight, styles.label]}>
+                <TouchableOpacity onPress={navigateToStatusSelection} style={[styles.labelBottomRight, styles.label]}>
+                    <Text style={styles.selectStatusText}>Sélectionner un statut</Text>
                     <Text>{editedTask.etat.label}</Text>
-                </View>
-                <TouchableOpacity onPress={navigateToUserSelection} style={styles.avatarContainer} onSave={(value) => handleSave('userId', value)}>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={navigateToUserSelection} style={styles.avatarContainer}>
                     {editedTask.userId && (
                         <Image
                             style={styles.avatar}
@@ -106,6 +110,10 @@ const styles = StyleSheet.create({
     selectUserText: {
         marginLeft: 10,
         color: 'blue',
+    },
+    statusContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     label: {
         backgroundColor: 'lightgray',

@@ -1,5 +1,15 @@
 bug: click depuis home vers taches j'arrive sur detail si detail encore ouvert
 
-Ajouter selecteur et user
+Revoir le user selected : ajouter nom et edit btn dans le taskdetailscreen, ajouter un check sur le userselected actuel dans le userselectionscreen, revoir agencement entre user et statut
 Ajouter selecturs et états
-Completer page mon compte
+
+Revoir avatar select + upload
+
+#034d7b 
+
+#062133 
+
+#949494
+
+#c48820
+
