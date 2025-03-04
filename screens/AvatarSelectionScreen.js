@@ -23,18 +23,20 @@ const AvatarSelectionScreen = ({ route }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Select Your Avatar</Text>
-            <FlatList
-                data={Object.keys(avatarImages)}
-                renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => handleAvatarSelect(item)}>
-                        <Image source={avatarImages[item]} style={styles.avatar} />
-                        {selectedAvatar === item && <Text style={styles.selected}>Selected</Text>}
-                    </TouchableOpacity>
-                )}
-                keyExtractor={(item) => item}
-                horizontal
-            />
+            <View style={styles.innerContainer}>
+                <FlatList
+                    data={Object.keys(avatarImages)}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity onPress={() => handleAvatarSelect(item)}>
+                            <Image source={avatarImages[item]} style={styles.avatar} />
+                            {selectedAvatar === item && <Text style={styles.selected}>Selected</Text>}
+                        </TouchableOpacity>
+                    )}
+                    keyExtractor={(item) => item}
+                    numColumns={2}
+                />
+            </View>
+            
         </View>
     );
 }
@@ -44,7 +46,21 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#034d7b',
+        padding: 10,
+
     },
+    avatar: {
+        width: 100,
+        height: 100,
+        margin: 10,
+        borderWidth: 1,
+        borderRadius: 50,
+    },
+    innerContainer: {
+        backgroundColor: '#fff',
+        borderRadius: 15,
+    }
 });
 
 export default AvatarSelectionScreen;
