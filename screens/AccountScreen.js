@@ -5,6 +5,8 @@ import EditableText from '../components/editableFields/EditableText';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
+import { useAuth } from '../contexts/AuthContext';
+
 const AccountScreen = () => {
   const navigation = useNavigation();
   const initialUser = users[0];
@@ -31,6 +33,8 @@ const AccountScreen = () => {
     "avatar5.png": require('../assets/avatar5.png'),
   };
 
+  const { logout } = useAuth();
+
   return (
     <View style={styles.container}>
       <View style={styles.innerCard}>
@@ -41,13 +45,18 @@ const AccountScreen = () => {
               style={styles.avatar}
               source={avatarImages[editedUser.avatar]}
             />
-            <Ionicons name="create-outline" size={22}/>
+            <Ionicons name="create-outline" size={22} />
           </TouchableOpacity>
         </View>
 
         <EditableText value={editedUser.nom} onSave={(value) => handleSave('nom', value)} label="Nom"></EditableText>
         <EditableText value={editedUser.prenom} onSave={(value) => handleSave('prenom', value)} label="Prénom"></EditableText>
         <EditableText value={editedUser.email} onSave={(value) => handleSave('email', value)} label="Email"></EditableText>
+      </View>
+      <View style={styles.innerCard}>
+        <TouchableOpacity onPress={logout} style={styles.button}>
+          <Text>Deconnexion</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
