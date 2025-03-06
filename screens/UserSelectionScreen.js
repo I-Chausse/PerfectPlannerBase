@@ -3,6 +3,9 @@ import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react
 import { useNavigation, useEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
+import MainStyles from '../utils/styles/MainStyles';
+import Colors from '../utils/styles/Colors';
+
 const UserSelectionScreen = ({ route, navigation }) => {
   const { users, task, handleSave } = route.params;
 
@@ -26,35 +29,28 @@ const UserSelectionScreen = ({ route, navigation }) => {
       {item.id === task.userId && 
         <Ionicons name="checkmark-circle-outline" size={22} style={styles.activeIcon}/>
       }
-
     </TouchableOpacity>
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[MainStyles.container, styles.container]}>
       <FlatList
         data={users}
         renderItem={renderUserItem}
         keyExtractor={(item) => item.id.toString()}
+        style={MainStyles.flatContainer}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: '#034d7b',
-    borderColor: '#949494',
-    borderTopWidth: 5,
-  },
   userItem: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    borderWidth: 1,
-    borderColor: '#c48820',
+    borderBottomWidth: 2,
+    borderColor: Colors.mainBlue,
     backgroundColor: '#fff',
     marginBottom: 5,
     borderRadius: 5,

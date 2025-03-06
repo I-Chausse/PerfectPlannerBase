@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import MainStyles from '../utils/styles/MainStyles';
+
 const AvatarSelectionScreen = ({ route }) => {
     const { handleSave } = route.params;
 
@@ -22,8 +24,8 @@ const AvatarSelectionScreen = ({ route }) => {
 
 
     return (
-        <View style={styles.container}>
-            <View style={styles.innerContainer}>
+        <View style={MainStyles.container}>
+            <View style={[MainStyles.mainCard, MainStyles.flatContainer]}>
                 <FlatList
                     data={Object.keys(avatarImages)}
                     renderItem={({ item }) => (
@@ -33,7 +35,7 @@ const AvatarSelectionScreen = ({ route }) => {
                         </TouchableOpacity>
                     )}
                     keyExtractor={(item) => item}
-                    numColumns={2}
+                    numColumns={3}
                 />
             </View>
             
@@ -51,8 +53,8 @@ const styles = StyleSheet.create({
 
     },
     avatar: {
-        width: 100,
-        height: 100,
+        width: 80,
+        height: 80,
         margin: 10,
         borderWidth: 1,
         borderRadius: 50,

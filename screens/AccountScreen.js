@@ -6,7 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { useAuth } from '../contexts/AuthContext';
-
+import MainStyles from '../utils/styles/MainStyles';
+import Colors from '../utils/styles/Colors';
 const AccountScreen = () => {
   const navigation = useNavigation();
   const initialUser = users[0];
@@ -36,10 +37,10 @@ const AccountScreen = () => {
   const { logout } = useAuth();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.innerCard}>
+    <View style={MainStyles.container}>
+      <View style={[MainStyles.mainCard, styles.mainCard]}>
         <View style={styles.topContainer}>
-          <Text>Nom du compte : {editedUser.nomUtilisateur} </Text>
+          <Text style={styles.customText}><Text style={ MainStyles.bold }>Compte :</Text> {editedUser.nomUtilisateur} </Text>
           <TouchableOpacity onPress={navigateToAvatarSelection} style={styles.avatarContainer}>
             <Image
               style={styles.avatar}
@@ -53,9 +54,9 @@ const AccountScreen = () => {
         <EditableText value={editedUser.prenom} onSave={(value) => handleSave('prenom', value)} label="Prénom"></EditableText>
         <EditableText value={editedUser.email} onSave={(value) => handleSave('email', value)} label="Email"></EditableText>
       </View>
-      <View style={styles.innerCard}>
-        <TouchableOpacity onPress={logout} style={styles.button}>
-          <Text>Deconnexion</Text>
+      <View >
+        <TouchableOpacity onPress={logout} style={MainStyles.secBtn}>
+          <Text style={MainStyles.secBtnText}>Deconnexion</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -63,14 +64,13 @@ const AccountScreen = () => {
 };
 
 const styles = {
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'top',
-    borderTopWidth: 5,
-    borderColor: '#949494',
-    backgroundColor: '#034d7b',
-    padding: 10,
+  mainCard: {
+    marginTop: 10,
+    width: '90%',
+  },
+  customText: {
+    marginLeft: 5,
+    fontSize: 16,
   },
   avatar: {
     width: 30,
@@ -91,7 +91,10 @@ const styles = {
     justifyContent: 'space-between',
   },
   avatarContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginEnd: 5,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   }
 };
 

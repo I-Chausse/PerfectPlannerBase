@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react
 import { useNavigation } from '@react-navigation/native';
 import { status } from '../data/status';
 import { Ionicons } from '@expo/vector-icons';
+import MainStyles from '../utils/styles/MainStyles';
+import Colors from '../utils/styles/Colors';
 
 const StatusSelectionScreen = ({ route, navigation }) => {
   const { task, handleSave } = route.params;
@@ -11,10 +13,6 @@ const StatusSelectionScreen = ({ route, navigation }) => {
     handleSave('etat', {code: status.code, label: status.label});
     navigation.goBack();
   };
-  console.log('## task ##');
-  console.log(task);
-  console.log('## status ##');
-  console.log(status);
   const renderStatusItem = ({ item }) => (
     <TouchableOpacity style={styles.statusItem} onPress={() => handleStatusSelect(item)}>
       <Text>{item.label}</Text>
@@ -25,32 +23,27 @@ const StatusSelectionScreen = ({ route, navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[MainStyles.container]}>
       <FlatList
         data={status}
         renderItem={renderStatusItem}
         keyExtractor={(item) => item.code}
+        style={ [MainStyles.flatContainer] }
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: '#034d7b',
-    borderColor: '#949494',
-    borderTopWidth: 5,
-  },
   statusItem: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    borderWidth: 1,
-    borderColor: '#c48820',
-    backgroundColor: '#fff',
+    borderBottomWidth: 2,
+    borderColor: Colors.mainBlue,
+    backgroundColor: Colors.mainWhite,
     marginBottom: 5,
+    width: '100%',
     borderRadius: 5,
   },
   activeIcon: {

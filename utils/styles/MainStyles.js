@@ -15,6 +15,10 @@ const MainStyles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
   },
+  flatContainer: {
+    width: '90%',
+    marginTop: 10,
+  },
 
   // inputs
   input: {
