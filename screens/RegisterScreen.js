@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
+
 import { useAuth } from '../contexts/AuthContext';
+import Logo from '../components/Logo';
+import Colors from '../utils/styles/Colors';
+import MainStyles from '../utils/styles/MainStyles';
 
 const RegisterScreen = () => {
   const { register } = useAuth();
@@ -24,70 +28,49 @@ const RegisterScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.fieldContainer}>
-        <Text>Nom d'utilisateur</Text>
-        <TextInput
-          style={styles.input}
-          value={userName}
-          onChangeText={setUserName}
-          placeholder="Nom d'utilisateur"
-        />
+    <View style={MainStyles.container}>
+      <Logo></Logo>
+      <View style={[styles.mainCard, MainStyles.mainCard]}>
+        <View style={MainStyles.inputLabelContainer}>
+          <Text style={ MainStyles.inputLabel }>Nom d'utilisateur</Text>
+          <TextInput
+            style={[MainStyles.input, styles.input]}
+            value={userName}
+            onChangeText={setUserName}
+          />
+        </View>
+        <View style={MainStyles.inputLabelContainer}>
+          <Text style={ MainStyles.inputLabel }>Mot de passe</Text>
+          <TextInput
+            style={[MainStyles.input, styles.input]}
+            secureTextEntry={true}
+            value={userPass}
+            onChangeText={setUserPass}
+          />
+        </View>
+        <View style={MainStyles.inputLabelContainer}>
+          <Text style={ MainStyles.inputLabel }>Code de validation</Text>
+          <TextInput
+            style={[MainStyles.input, styles.input]}
+            value={validationCode}
+            onChangeText={setValidationCode}
+            keyboardType="numeric"
+          />
+        </View>
+        <TouchableOpacity onPress={validateAndRegister} style={MainStyles.mainBtn}>
+          <Text style={ MainStyles.mainBtnText }>Créer un compte</Text>
+        </TouchableOpacity>
       </View>
-      <View style={styles.fieldContainer}>
-        <Text>Mot de passe</Text>
-        <TextInput
-          style={styles.input}
-          secureTextEntry={true}
-          value={userPass}
-          onChangeText={setUserPass}
-          placeholder="Mot de passe"
-        />
-      </View>
-      <View style={styles.fieldContainer}>
-        <Text>Code de validation</Text>
-        <TextInput
-          style={styles.input}
-          value={validationCode}
-          onChangeText={setValidationCode}
-          placeholder="Code de validation"
-          keyboardType="numeric"
-        />
-      </View>
-      <TouchableOpacity onPress={validateAndRegister} style={styles.registerBtn}>
-        <Text>Créer un compte</Text>
-      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    borderTopWidth: 5,
-    borderColor: '#949494',
-    flex: 1,
-    backgroundColor: '#034d7b',
-    alignItems: 'center',
-  },
-  registerBtn: {
-    backgroundColor: '#fff',
-    padding: 10,
-    margin: 10,
-    borderRadius: 5,
-    width: 200,
-    alignItems: 'center',
-    borderWidth: 1.5,
-    borderColor: '#c48820',
-    shadowColor: '#fff',
-    shadowOffset: { width: 3, height: 3 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
+  mainCard: {
+    marginTop: 50,
   },
   input: {
-    backgroundColor: '#fff',
-    padding: 10,
     width: 200,
-    margin: 10,
   },
   fieldContainer: {
     flexDirection: 'row',

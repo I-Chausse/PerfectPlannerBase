@@ -79,7 +79,7 @@ const MainNavigator = () => {
                                 tabBarIcon: ({ color, size }) => (
                                     <Ionicons name="apps-outline" size={size} color={color} />
                                 ),
-                                title: 'Connexion',
+                                title: 'Perfect Planner',
                             }}
                         />
                         <Tab.Screen
@@ -90,7 +90,7 @@ const MainNavigator = () => {
                                 tabBarIcon: ({ color, size }) => (
                                     <Ionicons name="apps-outline" size={size} color={color} />
                                 ),
-                                title: 'Créer un compte',
+                                title: 'Perfect Planner',
                             }}
                         />
                     </>
