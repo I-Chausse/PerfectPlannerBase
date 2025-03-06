@@ -1,8 +1,8 @@
 const taches = [
-  { id: 1, nom: 'Tâche 1', description: 'Tâche 1 pour Développement Site E-commerce', projetId: 1, etat: { code: 'A_FAIRE', label: 'À faire' }, userId: Math.floor(Math.random() * 10) + 1 },
-  { id: 2, nom: 'Tâche 2', description: 'Tâche 2 pour Développement Site E-commerce', projetId: 1, etat: { code: 'A_FAIRE', label: 'À faire' }, userId: Math.floor(Math.random() * 10) + 1 },
-  { id: 3, nom: 'Tâche 3', description: 'Tâche 3 pour Développement Site E-commerce', projetId: 1, etat: { code: 'A_FAIRE', label: 'À faire' }, userId: Math.floor(Math.random() * 10) + 1 },
-  { id: 4, nom: 'Tâche 4', description: 'Tâche 4 pour Développement Site E-commerce', projetId: 1, etat: { code: 'A_FAIRE', label: 'À faire' }, userId: Math.floor(Math.random() * 10) + 1 },
+  { id: 1, nom: 'Tâche 1', description: 'Tâche 1 pour Développement Site E-commerce', projetId: 1, etat: { code: 'TERMINE', label: 'Terminée' }, userId: Math.floor(Math.random() * 10) + 1 },
+  { id: 2, nom: 'Tâche 2', description: 'Tâche 2 pour Développement Site E-commerce', projetId: 1, etat: { code: 'EN_REVUE', label: 'Revue' }, userId: Math.floor(Math.random() * 10) + 1 },
+  { id: 3, nom: 'Tâche 3', description: 'Tâche 3 pour Développement Site E-commerce', projetId: 1, etat: { code: 'BLOQUE', label: 'Bloquée' }, userId: Math.floor(Math.random() * 10) + 1 },
+  { id: 4, nom: 'Tâche 4', description: 'Tâche 4 pour Développement Site E-commerce', projetId: 1, etat: { code: 'EN_COURS', label: 'En cours' }, userId: Math.floor(Math.random() * 10) + 1 },
   { id: 5, nom: 'Tâche 5', description: 'Tâche 5 pour Développement Site E-commerce', projetId: 1, etat: { code: 'A_FAIRE', label: 'À faire' }, userId: Math.floor(Math.random() * 10) + 1 },
   { id: 6, nom: 'Tâche 6', description: 'Tâche 6 pour Développement Site E-commerce', projetId: 1, etat: { code: 'A_FAIRE', label: 'À faire' }, userId: Math.floor(Math.random() * 10) + 1 },
   { id: 7, nom: 'Tâche 7', description: 'Tâche 7 pour Développement Site E-commerce', projetId: 1, etat: { code: 'A_FAIRE', label: 'À faire' }, userId: Math.floor(Math.random() * 10) + 1 },

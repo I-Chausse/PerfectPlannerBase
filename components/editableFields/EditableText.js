@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const EditableField = ({ value, onSave, label }) => {
+import MainStyles from '../../utils/styles/MainStyles';
+import Colors from '../../utils/styles/Colors';
+
+const EditableField = ({ value, onSave, label, multiLine }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [localValue, setLocalValue] = useState(value);
 
@@ -14,19 +17,23 @@ const EditableField = ({ value, onSave, label }) => {
   return (
     <View style={styles.fieldContainer}>
       {isEditing ? (
-        <TextInput
-          style={styles.input}
-          value={localValue}
-          onChangeText={setLocalValue}
-        />
+        <View style={[MainStyles.inputLabelContainer, { width: '90%' }]}>
+          <Text style={MainStyles.inputLabel}>{label}</Text>
+          <TextInput
+            style={[MainStyles.input, styles.input]}
+            value={localValue}
+            onChangeText={setLocalValue}
+            multiline={multiLine}
+          />
+        </View>
       ) : (
         <Text style={styles.text}>
-          <Text style={styles.textBold}>{label}</Text>
+          <Text style={MainStyles.bold}>{label}</Text>
           : {localValue}
         </Text>
       )}
-      <TouchableOpacity style={styles.button} onPress={isEditing ? handleSave : () => setIsEditing(true)}>
-        <Ionicons name={isEditing ? "checkmark-circle" : "create-outline"} size={22}/>
+      <TouchableOpacity style={styles.switchButton} onPress={isEditing ? handleSave : () => setIsEditing(true)}>
+        <Ionicons name={isEditing ? "checkmark-circle" : "create-outline"} size={22} style={isEditing ? {color: Colors.mainBlue} : {}}/>
       </TouchableOpacity>
     </View>
   );
@@ -40,27 +47,19 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   input: {
-    borderBottomWidth: 1,
-    borderColor: 'gray',
-    padding: 5,
+    width: '100%',
   },
   text: {
     fontSize: 16,
     padding: 5,
     flex: 1,
   },
-  button: {
+  switchButton: {
     padding: 5,
-    borderRadius: 5,
-    alignSelf: 'flex-start',
+    marginBottom: 5,
+    alignSelf: 'flex-end',
   },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-  },
-  textBold: {
-    fontWeight: 'bold',
-  },
+  
 });
 
 export default EditableField;

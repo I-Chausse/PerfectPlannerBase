@@ -1,6 +1,8 @@
 import { Picker } from '@react-native-picker/picker';
 import { View, Text, StyleSheet } from 'react-native';
+
 import { projets } from '../data/projets';
+import Colors from '../utils/styles/Colors';
 
 const ProjectSelector = ({ selectedProject, onProjectChange }) => {
     return (
@@ -23,10 +25,12 @@ const ProjectSelector = ({ selectedProject, onProjectChange }) => {
 const styles = StyleSheet.create({
   pickerView: {
     borderWidth: 2,
-    borderColor: '#c48820',
-    backgroundColor: '#fff',
+    borderColor: Colors.mainOrange,
+    backgroundColor: Colors.mainWhite,
     margin: 10,
     borderRadius: 20,
+    width: '90%',
+    alignSelf: 'center',
   }
 });
 

@@ -14,11 +14,21 @@ const colors = {
     
     accentOrange: '#ffa500',
     mainWhite: '#fff',
+    mainBlack: '#000',
     
     compSoftRose: '#ffc0cb',
     primary: '#FF0000',
     secondary: '#00FF00',
     tertiary: '#0000FF',
+
+    status: {
+        A_FAIRE: '#FFF',
+        EN_COURS: '#aeb6bf',
+        EN_REVUE: '#D6F49D',
+        TERMINE: '#00d062',
+        BLOQUE: '#ffc0cb',
+
+    }
 };
 
 export default colors;

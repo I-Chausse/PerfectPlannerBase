@@ -2,10 +2,11 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import ProjectDisplay from '../components/ProjectDisplay';
 import { projets } from '../data/projets';
+import MainStyles from '../utils/styles/MainStyles';
 
 const HomeScreen = () => {
   return (
-    <View style={styles.container}>
+    <View style={[MainStyles.container, styles.container]}>
       <FlatList
         numColumns={2}
         data={projets}
@@ -18,10 +19,8 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    borderTopWidth: 5,
-    borderColor: '#949494',
     flex: 1,
-    backgroundColor: '#034d7b',
+    alignItems: 'between',
   },
 });
 

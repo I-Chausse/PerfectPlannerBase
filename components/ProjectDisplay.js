@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import Colors from '../utils/styles/Colors';
+
 
 const ProjectDisplay = ({ projet }) => {
   const navigation = useNavigation();
@@ -22,12 +24,12 @@ const ProjectDisplay = ({ projet }) => {
       flex: 1,
       margin: 5,
       padding: 10,
-      borderWidth: 2,
-      borderColor: '#c48820',
       borderRadius: 5,
-      backgroundColor: '#fff',
+      backgroundColor: Colors.mainWhite,
       height: 100,
       justifyContent: 'space-around',
+      borderColor: Colors.mainBlue,
+      borderBottomWidth: 2.5,
     },
     nom: {
       fontSize: 16,
@@ -35,7 +37,7 @@ const ProjectDisplay = ({ projet }) => {
     },
     nbTaches: {
       fontSize: 14,
-      color: 'gray',
+      color: Colors.mainGray,
     },
   });
 

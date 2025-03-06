@@ -20,7 +20,8 @@ const ProjectTasksDisplay = ({ projet }) => {
 
 const styles = StyleSheet.create({
     taskContainer: {
-      
+      width: '90%',
+      paddingBottom: 100,
     }
 });
   

@@ -5,6 +5,10 @@ Ajouter selecturs et états
 
 Revoir avatar select + upload
 
+créer une tache,
+modifier les data.js ?
+reset la stack en cas de nav depuis projet
+
 #034d7b 
 
 #062133 

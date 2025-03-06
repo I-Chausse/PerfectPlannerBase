@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
 import { users } from '../data/users';
+import Colors from '../utils/styles/Colors';
 
 
 const ProjectTasksDisplay = ({ task }) => {
@@ -22,7 +24,7 @@ const ProjectTasksDisplay = ({ task }) => {
     <TouchableOpacity style={styles.task} onPress={navigateToTaskDetails}>
         <Text style={styles.cardTitle}>{task.nom}</Text>
         <Text numberOfLines={3}>{task.description}</Text>
-        <View style={[styles.labelBottomRight, styles.label]}>
+        <View style={[styles.labelBottomRight, styles.label, {backgroundColor: Colors.status[task.etat.code], borderColor: task.etat.code === 'A_FAIRE' ? Colors.mainBlue : Colors.mainWhite}]}>
         <Text>{task.etat.label}</Text>
         </View>
         {task.userId && (
@@ -44,15 +46,13 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     task: {
-        fontSize: 14,
-        color: 'gray',
         padding: 5,
-        margin: 5,
-        borderWidth: 2,
-        borderColor: '#c48820',
+        marginBottom: 5,
         borderRadius: 5,
-        backgroundColor: '#fff',
+        backgroundColor: Colors.mainWhite,
         height: 150,
+        borderBottomWidth: 2.5,
+        borderColor: Colors.mainBlue,
     },
     labelBottomRight: {
         position: 'absolute',
