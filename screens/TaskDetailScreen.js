@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
 import EditableText from "../components/editableFields/EditableText";
+import EditableNumber from "../components/editableFields/EditableNumber";
 import { users } from "../data/users";
 import { taches } from "../data/taches";
 import Popup from "../components/ConfirmationPopUp";
@@ -37,8 +38,7 @@ const TaskDetailScreen = ({ route }) => {
   };
 
   const saveChanges = () => {
-    // Mock API call
-    const success = true; // Remplacez par la logique réelle
+    const success = true;
     if (success) {
       setPopupMessage("Enregistrement réussi !");
       setIsSuccess(true);
@@ -134,6 +134,14 @@ const TaskDetailScreen = ({ route }) => {
             <Text style={MainStyles.mx10}>{editedTask.etat.label}</Text>
             <Ionicons name="create-outline" size={22} />
           </TouchableOpacity>
+        </View>
+        <View style={styles.customSelectContainer}>
+          <EditableNumber
+            value={editedTask.remainingTime ?? null}
+            onSave={(value) => handleSave("remainingTime", value)}
+            label="Restant"
+          />
+          
         </View>
       </View>
       <View style={styles.buttonContainer}>

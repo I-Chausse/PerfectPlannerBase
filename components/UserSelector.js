@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { users } from "../data/users";
 import Colors from "../utils/styles/Colors";
 
-const ProjectSelector = ({ selectedUser, onUserChange }) => {
+const UserSelector = ({ selectedUser, onUserChange }) => {
   return (
     <View style={styles.pickerView}>
       <Picker
@@ -34,4 +34,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProjectSelector;
+export default UserSelector;
