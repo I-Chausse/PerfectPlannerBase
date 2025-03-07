@@ -1,24 +1,38 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { status } from '../data/status';
-import { Ionicons } from '@expo/vector-icons';
-import MainStyles from '../utils/styles/MainStyles';
-import Colors from '../utils/styles/Colors';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+  Image,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { status } from "../data/status";
+import { Ionicons } from "@expo/vector-icons";
+import MainStyles from "../utils/styles/MainStyles";
+import Colors from "../utils/styles/Colors";
 
 const StatusSelectionScreen = ({ route, navigation }) => {
   const { task, handleSave } = route.params;
 
   const handleStatusSelect = (status) => {
-    handleSave('etat', {code: status.code, label: status.label});
+    handleSave("etat", { code: status.code, label: status.label });
     navigation.goBack();
   };
   const renderStatusItem = ({ item }) => (
-    <TouchableOpacity style={styles.statusItem} onPress={() => handleStatusSelect(item)}>
+    <TouchableOpacity
+      style={styles.statusItem}
+      onPress={() => handleStatusSelect(item)}
+    >
       <Text>{item.label}</Text>
-      {item.code === task.etat.code && 
-        <Ionicons name="checkmark-circle-outline" size={22} style={styles.activeIcon}/>
-      }
+      {item.code === task.etat.code && (
+        <Ionicons
+          name="checkmark-circle-outline"
+          size={22}
+          style={styles.activeIcon}
+        />
+      )}
     </TouchableOpacity>
   );
 
@@ -28,7 +42,7 @@ const StatusSelectionScreen = ({ route, navigation }) => {
         data={status}
         renderItem={renderStatusItem}
         keyExtractor={(item) => item.code}
-        style={ [MainStyles.flatContainer] }
+        style={[MainStyles.flatContainer]}
       />
     </View>
   );
@@ -36,18 +50,18 @@ const StatusSelectionScreen = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   statusItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 10,
     borderBottomWidth: 2,
     borderColor: Colors.mainBlue,
     backgroundColor: Colors.mainWhite,
     marginBottom: 5,
-    width: '100%',
+    width: "100%",
     borderRadius: 5,
   },
   activeIcon: {
-    position: 'absolute',
+    position: "absolute",
     right: 10,
   },
 });

@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import MainStyles from '../../utils/styles/MainStyles';
-import Colors from '../../utils/styles/Colors';
+import MainStyles from "../../utils/styles/MainStyles";
+import Colors from "../../utils/styles/Colors";
 
 const EditableField = ({ value, onSave, label, multiLine }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -17,7 +23,7 @@ const EditableField = ({ value, onSave, label, multiLine }) => {
   return (
     <View style={styles.fieldContainer}>
       {isEditing ? (
-        <View style={[MainStyles.inputLabelContainer, { width: '90%' }]}>
+        <View style={[MainStyles.inputLabelContainer, { width: "90%" }]}>
           <Text style={MainStyles.inputLabel}>{label}</Text>
           <TextInput
             style={[MainStyles.input, styles.input]}
@@ -28,12 +34,18 @@ const EditableField = ({ value, onSave, label, multiLine }) => {
         </View>
       ) : (
         <Text style={styles.text}>
-          <Text style={MainStyles.bold}>{label}</Text>
-          : {localValue}
+          <Text style={MainStyles.bold}>{label}</Text>: {localValue}
         </Text>
       )}
-      <TouchableOpacity style={styles.switchButton} onPress={isEditing ? handleSave : () => setIsEditing(true)}>
-        <Ionicons name={isEditing ? "checkmark-circle" : "create-outline"} size={22} style={isEditing ? {color: Colors.mainBlue} : {}}/>
+      <TouchableOpacity
+        style={styles.switchButton}
+        onPress={isEditing ? handleSave : () => setIsEditing(true)}
+      >
+        <Ionicons
+          name={isEditing ? "checkmark-circle" : "create-outline"}
+          size={22}
+          style={isEditing ? { color: Colors.mainBlue } : {}}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -41,13 +53,13 @@ const EditableField = ({ value, onSave, label, multiLine }) => {
 
 const styles = StyleSheet.create({
   fieldContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: 5,
-    width: '100%',
+    width: "100%",
   },
   input: {
-    width: '100%',
+    width: "100%",
   },
   text: {
     fontSize: 16,
@@ -57,9 +69,8 @@ const styles = StyleSheet.create({
   switchButton: {
     padding: 5,
     marginBottom: 5,
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
   },
-  
 });
 
 export default EditableField;

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import { users } from '../data/users';
-import EditableText from '../components/editableFields/EditableText';
-import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState, useEffect } from "react";
+import { View, Text, TouchableOpacity, Image } from "react-native";
+import { users } from "../data/users";
+import EditableText from "../components/editableFields/EditableText";
+import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 
-import { useAuth } from '../contexts/AuthContext';
-import MainStyles from '../utils/styles/MainStyles';
-import Colors from '../utils/styles/Colors';
+import { useAuth } from "../contexts/AuthContext";
+import MainStyles from "../utils/styles/MainStyles";
+import Colors from "../utils/styles/Colors";
 const AccountScreen = () => {
   const navigation = useNavigation();
   const initialUser = users[0];
@@ -23,15 +23,15 @@ const AccountScreen = () => {
   };
 
   const navigateToAvatarSelection = () => {
-    navigation.navigate('AvatarSelectionScreen', { handleSave: handleSave });
+    navigation.navigate("AvatarSelectionScreen", { handleSave: handleSave });
   };
 
   const avatarImages = {
-    "avatar1.png": require('../assets/avatar1.png'),
-    "avatar2.png": require('../assets/avatar2.png'),
-    "avatar3.png": require('../assets/avatar3.png'),
-    "avatar4.png": require('../assets/avatar4.png'),
-    "avatar5.png": require('../assets/avatar5.png'),
+    "avatar1.png": require("../assets/avatar1.png"),
+    "avatar2.png": require("../assets/avatar2.png"),
+    "avatar3.png": require("../assets/avatar3.png"),
+    "avatar4.png": require("../assets/avatar4.png"),
+    "avatar5.png": require("../assets/avatar5.png"),
   };
 
   const { logout } = useAuth();
@@ -40,8 +40,14 @@ const AccountScreen = () => {
     <View style={MainStyles.container}>
       <View style={[MainStyles.mainCard, styles.mainCard]}>
         <View style={styles.topContainer}>
-          <Text style={styles.customText}><Text style={ MainStyles.bold }>Compte :</Text> {editedUser.nomUtilisateur} </Text>
-          <TouchableOpacity onPress={navigateToAvatarSelection} style={styles.avatarContainer}>
+          <Text style={styles.customText}>
+            <Text style={MainStyles.bold}>Compte :</Text>{" "}
+            {editedUser.nomUtilisateur}{" "}
+          </Text>
+          <TouchableOpacity
+            onPress={navigateToAvatarSelection}
+            style={styles.avatarContainer}
+          >
             <Image
               style={styles.avatar}
               source={avatarImages[editedUser.avatar]}
@@ -50,11 +56,23 @@ const AccountScreen = () => {
           </TouchableOpacity>
         </View>
 
-        <EditableText value={editedUser.nom} onSave={(value) => handleSave('nom', value)} label="Nom"></EditableText>
-        <EditableText value={editedUser.prenom} onSave={(value) => handleSave('prenom', value)} label="Prénom"></EditableText>
-        <EditableText value={editedUser.email} onSave={(value) => handleSave('email', value)} label="Email"></EditableText>
+        <EditableText
+          value={editedUser.nom}
+          onSave={(value) => handleSave("nom", value)}
+          label="Nom"
+        ></EditableText>
+        <EditableText
+          value={editedUser.prenom}
+          onSave={(value) => handleSave("prenom", value)}
+          label="Prénom"
+        ></EditableText>
+        <EditableText
+          value={editedUser.email}
+          onSave={(value) => handleSave("email", value)}
+          label="Email"
+        ></EditableText>
       </View>
-      <View >
+      <View>
         <TouchableOpacity onPress={logout} style={MainStyles.secBtn}>
           <Text style={MainStyles.secBtnText}>Deconnexion</Text>
         </TouchableOpacity>
@@ -66,7 +84,7 @@ const AccountScreen = () => {
 const styles = {
   mainCard: {
     marginTop: 10,
-    width: '90%',
+    width: "90%",
   },
   customText: {
     marginLeft: 5,
@@ -79,23 +97,23 @@ const styles = {
     marginRight: 10,
   },
   innerCard: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     marginTop: 10,
     padding: 10,
     borderRadius: 15,
-    borderColor: '#c48820',
+    borderColor: "#c48820",
     borderWidth: 1,
   },
   topContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   avatarContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginEnd: 5,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  }
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
 };
 
 export default AccountScreen;

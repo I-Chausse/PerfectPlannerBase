@@ -1,21 +1,27 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
-import { useAuth } from '../contexts/AuthContext';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
+import { useAuth } from "../contexts/AuthContext";
 
-import Logo from '../components/Logo';
-import Colors from '../utils/styles/Colors';
-import MainStyles from '../utils/styles/MainStyles';
+import Logo from "../components/Logo";
+import Colors from "../utils/styles/Colors";
+import MainStyles from "../utils/styles/MainStyles";
 
 const LoginScreen = () => {
   const { login } = useAuth();
-  const [userName, setUserName] = useState('');
-  const [userPass, setUserPass] = useState('');
+  const [userName, setUserName] = useState("");
+  const [userPass, setUserPass] = useState("");
 
   const validateAndLogin = () => {
-    if (userName === '' || userPass === '') {
-      alert('Veuillez remplir tous les champs');
+    if (userName === "" || userPass === "") {
+      alert("Veuillez remplir tous les champs");
     } else {
-      login('mock-jwt-token');
+      login("mock-jwt-token", userName === "admin");
     }
   };
 
@@ -24,7 +30,7 @@ const LoginScreen = () => {
       <Logo></Logo>
       <View style={[styles.mainCard, MainStyles.mainCard]}>
         <View style={MainStyles.inputLabelContainer}>
-          <Text style={ MainStyles.inputLabel }>Nom d'utilisateur</Text>
+          <Text style={MainStyles.inputLabel}>Nom d'utilisateur</Text>
           <TextInput
             style={[styles.input, MainStyles.input]}
             value={userName}
@@ -32,7 +38,7 @@ const LoginScreen = () => {
           />
         </View>
         <View style={MainStyles.inputLabelContainer}>
-          <Text style={ MainStyles.inputLabel }>Mot de passe</Text>
+          <Text style={MainStyles.inputLabel}>Mot de passe</Text>
           <TextInput
             style={[styles.input, MainStyles.input]}
             secureTextEntry={true}
@@ -55,7 +61,6 @@ const styles = StyleSheet.create({
   mainCard: {
     marginTop: 50,
   },
-  
 });
 
 export default LoginScreen;

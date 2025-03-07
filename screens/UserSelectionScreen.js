@@ -1,34 +1,50 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
-import { useNavigation, useEffect } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+  Image,
+} from "react-native";
+import { useNavigation, useEffect } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 
-import MainStyles from '../utils/styles/MainStyles';
-import Colors from '../utils/styles/Colors';
+import MainStyles from "../utils/styles/MainStyles";
+import Colors from "../utils/styles/Colors";
 
 const UserSelectionScreen = ({ route, navigation }) => {
   const { users, task, handleSave } = route.params;
 
   const avatarImages = {
-    "avatar1.png": require('../assets/avatar1.png'),
-    "avatar2.png": require('../assets/avatar2.png'),
-    "avatar3.png": require('../assets/avatar3.png'),
-    "avatar4.png": require('../assets/avatar4.png'),
-    "avatar5.png": require('../assets/avatar5.png'),
-};
+    "avatar1.png": require("../assets/avatar1.png"),
+    "avatar2.png": require("../assets/avatar2.png"),
+    "avatar3.png": require("../assets/avatar3.png"),
+    "avatar4.png": require("../assets/avatar4.png"),
+    "avatar5.png": require("../assets/avatar5.png"),
+  };
 
   const handleUserSelect = (user) => {
-    handleSave('userId', user.id);
+    handleSave("userId", user.id);
     navigation.goBack();
   };
 
   const renderUserItem = ({ item }) => (
-    <TouchableOpacity style={styles.userItem} onPress={() => handleUserSelect(item)}>
+    <TouchableOpacity
+      style={styles.userItem}
+      onPress={() => handleUserSelect(item)}
+    >
       <Image style={styles.avatar} source={avatarImages[item.avatar]} />
-      <Text>{item.prenom} {item.nom}</Text>
-      {item.id === task.userId && 
-        <Ionicons name="checkmark-circle-outline" size={22} style={styles.activeIcon}/>
-      }
+      <Text>
+        {item.prenom} {item.nom}
+      </Text>
+      {item.id === task.userId && (
+        <Ionicons
+          name="checkmark-circle-outline"
+          size={22}
+          style={styles.activeIcon}
+        />
+      )}
     </TouchableOpacity>
   );
 
@@ -46,12 +62,12 @@ const UserSelectionScreen = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   userItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 10,
     borderBottomWidth: 2,
     borderColor: Colors.mainBlue,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     marginBottom: 5,
     borderRadius: 5,
   },
@@ -62,7 +78,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   activeIcon: {
-    position: 'absolute',
+    position: "absolute",
     right: 10,
   },
 });

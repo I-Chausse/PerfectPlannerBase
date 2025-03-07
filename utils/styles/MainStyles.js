@@ -1,12 +1,12 @@
-import { StyleSheet } from 'react-native';
-import Colors from './Colors';
+import { StyleSheet } from "react-native";
+import Colors from "./Colors";
 
 const MainStyles = StyleSheet.create({
   // display
   container: {
     flex: 1,
     backgroundColor: Colors.backGround,
-    alignItems: 'center',
+    alignItems: "center",
   },
   mainCard: {
     backgroundColor: Colors.mainWhite,
@@ -16,7 +16,7 @@ const MainStyles = StyleSheet.create({
     marginRight: 20,
   },
   flatContainer: {
-    width: '90%',
+    width: "90%",
     marginTop: 10,
   },
 
@@ -31,16 +31,16 @@ const MainStyles = StyleSheet.create({
   inputLabel: {
     color: Colors.mainGray,
     fontSize: 12,
-    alignSelf: 'start',
+    alignSelf: "start",
     marginLeft: 10,
     marginTop: 10,
     marginBottom: -10,
   },
   inputLabelContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    alignSelf: 'start',
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
+    alignSelf: "start",
   },
 
   //btns
@@ -48,7 +48,7 @@ const MainStyles = StyleSheet.create({
     padding: 10,
     margin: 10,
     borderRadius: 5,
-    alignItems: 'center',
+    alignItems: "center",
     backgroundColor: Colors.accentBlue,
   },
   mainBtnText: {
@@ -58,7 +58,7 @@ const MainStyles = StyleSheet.create({
     padding: 10,
     margin: 10,
     borderRadius: 5,
-    alignItems: 'center',
+    alignItems: "center",
     backgroundColor: Colors.secondaryBlue,
     borderWidth: 0.5,
     borderColor: Colors.mainBlue,
@@ -76,14 +76,14 @@ const MainStyles = StyleSheet.create({
 
   //text
   bold: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 
   // margins
-  mx10 : {
+  mx10: {
     marginLeft: 10,
     marginRight: 10,
-  }
+  },
 });
 
 export default MainStyles;

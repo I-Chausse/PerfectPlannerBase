@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Animated } from 'react-native';
+import React, { useEffect } from "react";
+import { View, Text, StyleSheet, Animated } from "react-native";
 
 const Popup = ({ visible, message, isSuccess }) => {
   const fadeAnim = new Animated.Value(0);
-  console.log('Popup rendered');
+  console.log("Popup rendered");
 
   useEffect(() => {
     if (visible) {
@@ -28,7 +28,13 @@ const Popup = ({ visible, message, isSuccess }) => {
   }, [visible]);
 
   return (
-    <Animated.View style={[styles.popup, { opacity: fadeAnim }, isSuccess ? styles.success : styles.error]}>
+    <Animated.View
+      style={[
+        styles.popup,
+        { opacity: fadeAnim },
+        isSuccess ? styles.success : styles.error,
+      ]}
+    >
       <Text style={styles.popupText}>{message}</Text>
     </Animated.View>
   );
@@ -36,22 +42,22 @@ const Popup = ({ visible, message, isSuccess }) => {
 
 const styles = StyleSheet.create({
   popup: {
-    position: 'absolute',
+    position: "absolute",
     top: 50,
     padding: 10,
     borderRadius: 5,
-    alignSelf: 'center',
+    alignSelf: "center",
     zIndex: 1,
   },
   popupText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
   },
   success: {
-    backgroundColor: 'green',
+    backgroundColor: "green",
   },
   error: {
-    backgroundColor: 'red',
+    backgroundColor: "red",
   },
 });
 

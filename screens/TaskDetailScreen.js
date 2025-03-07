@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState, useEffect } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 
-import EditableText from '../components/editableFields/EditableText';
-import { users } from '../data/users';
-import { taches } from '../data/taches';
-import Popup from '../components/ConfirmationPopUp';
-import MainStyles from '../utils/styles/MainStyles';
-import Colors from '../utils/styles/Colors';
+import EditableText from "../components/editableFields/EditableText";
+import { users } from "../data/users";
+import { taches } from "../data/taches";
+import Popup from "../components/ConfirmationPopUp";
+import MainStyles from "../utils/styles/MainStyles";
+import Colors from "../utils/styles/Colors";
 
 const TaskDetailScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -16,15 +16,15 @@ const TaskDetailScreen = ({ route }) => {
   const [editedTask, setEditedTask] = useState(initialTask);
   const [originalTask, setOriginalTask] = useState(initialTask);
   const [popupVisible, setPopupVisible] = useState(false);
-  const [popupMessage, setPopupMessage] = useState('');
+  const [popupMessage, setPopupMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(true);
 
   const avatarImages = {
-    "avatar1.png": require('../assets/avatar1.png'),
-    "avatar2.png": require('../assets/avatar2.png'),
-    "avatar3.png": require('../assets/avatar3.png'),
-    "avatar4.png": require('../assets/avatar4.png'),
-    "avatar5.png": require('../assets/avatar5.png'),
+    "avatar1.png": require("../assets/avatar1.png"),
+    "avatar2.png": require("../assets/avatar2.png"),
+    "avatar3.png": require("../assets/avatar3.png"),
+    "avatar4.png": require("../assets/avatar4.png"),
+    "avatar5.png": require("../assets/avatar5.png"),
   };
 
   useEffect(() => {
@@ -40,10 +40,10 @@ const TaskDetailScreen = ({ route }) => {
     // Mock API call
     const success = true; // Remplacez par la logique réelle
     if (success) {
-      setPopupMessage('Enregistrement réussi !');
+      setPopupMessage("Enregistrement réussi !");
       setIsSuccess(true);
     } else {
-      setPopupMessage('Échec de l\'enregistrement.');
+      setPopupMessage("Échec de l'enregistrement.");
       setIsSuccess(false);
     }
     setPopupVisible(true);
@@ -54,12 +54,12 @@ const TaskDetailScreen = ({ route }) => {
   };
 
   const navigateToUserSelection = () => {
-    navigation.navigate('UserSelectionScreen', {
+    navigation.navigate("UserSelectionScreen", {
       users: users,
       task: editedTask,
       handleSave: handleSave,
       onGoBack: () => {
-        setPopupMessage('Utilisateur modifié.');
+        setPopupMessage("Utilisateur modifié.");
         setIsSuccess(true);
         setPopupVisible(true);
       },
@@ -67,11 +67,11 @@ const TaskDetailScreen = ({ route }) => {
   };
 
   const navigateToStatusSelection = () => {
-    navigation.navigate('StatusSelectionScreen', {
+    navigation.navigate("StatusSelectionScreen", {
       task: editedTask,
       handleSave: handleSave,
       onGoBack: () => {
-        setPopupMessage('Statut modifié.');
+        setPopupMessage("Statut modifié.");
         setIsSuccess(true);
         setPopupVisible(true);
       },
@@ -80,28 +80,56 @@ const TaskDetailScreen = ({ route }) => {
 
   return (
     <View style={[MainStyles.container, styles.container]}>
-      <Popup visible={popupVisible} message={popupMessage} isSuccess={isSuccess} />
+      <Popup
+        visible={popupVisible}
+        message={popupMessage}
+        isSuccess={isSuccess}
+      />
       <View style={[MainStyles.mainCard, styles.mainCard]}>
         <View style={styles.propertyItem}>
-          <EditableText value={editedTask.nom} onSave={(value) => handleSave('nom', value)} label="Titre" />
+          <EditableText
+            value={editedTask.nom}
+            onSave={(value) => handleSave("nom", value)}
+            label="Titre"
+          />
         </View>
         <View style={styles.propertyItem}>
-          <EditableText value={editedTask.description} onSave={(value) => handleSave('description', value)} label="Description" multiLine={true} />
+          <EditableText
+            value={editedTask.description}
+            onSave={(value) => handleSave("description", value)}
+            label="Description"
+            multiLine={true}
+          />
         </View>
         <View style={styles.customSelectContainer}>
-          <TouchableOpacity onPress={navigateToUserSelection} style={styles.customNavigator}>
+          <TouchableOpacity
+            onPress={navigateToUserSelection}
+            style={styles.customNavigator}
+          >
             {editedTask.userId && (
               <View style={styles.avatarSecondContainer}>
                 <Image
                   style={MainStyles.avatar}
-                  source={avatarImages[users.find((user) => user.id === editedTask.userId).avatar]}
+                  source={
+                    avatarImages[
+                      users.find((user) => user.id === editedTask.userId).avatar
+                    ]
+                  }
                 />
-                <Text style={MainStyles.mx10}>{users.find((user) => user.id === editedTask.userId).prenom.charAt(0) + '.'} {users.find((user) => user.id === editedTask.userId).nom}</Text>
+                <Text style={MainStyles.mx10}>
+                  {users
+                    .find((user) => user.id === editedTask.userId)
+                    .prenom.charAt(0) + "."}{" "}
+                  {users.find((user) => user.id === editedTask.userId).nom}
+                </Text>
                 <Ionicons name="create-outline" size={22} />
               </View>
             )}
           </TouchableOpacity>
-          <TouchableOpacity onPress={navigateToStatusSelection} style={styles.customNavigator}>
+          <TouchableOpacity
+            onPress={navigateToStatusSelection}
+            style={styles.customNavigator}
+          >
             <Text style={MainStyles.bold}>Statut: </Text>
             <Text style={MainStyles.mx10}>{editedTask.etat.label}</Text>
             <Ionicons name="create-outline" size={22} />
@@ -109,11 +137,17 @@ const TaskDetailScreen = ({ route }) => {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={cancelChanges} style={[MainStyles.secBtn, styles.button]}>
-          <Text style={ MainStyles.secBtnText }>Annuler</Text>
+        <TouchableOpacity
+          onPress={cancelChanges}
+          style={[MainStyles.secBtn, styles.button]}
+        >
+          <Text style={MainStyles.secBtnText}>Annuler</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={saveChanges} style={[MainStyles.mainBtn, styles.button]}>
-          <Text style={ MainStyles.mainBtnText }>Enregistrer</Text>
+        <TouchableOpacity
+          onPress={saveChanges}
+          style={[MainStyles.mainBtn, styles.button]}
+        >
+          <Text style={MainStyles.mainBtnText}>Enregistrer</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -125,7 +159,7 @@ const styles = StyleSheet.create({
     paddingTop: 50,
   },
   mainCard: {
-    width: '90%',
+    width: "90%",
   },
 
   propertyItem: {
@@ -135,34 +169,34 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    width: '40%',
+    width: "40%",
     padding: 10,
   },
 
   customNavigator: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 10,
     padding: 5,
     borderBottomWidth: 1,
     borderColor: Colors.mainBlue,
   },
   customSelectContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     rowGap: 10,
   },
   avatarSecondContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    position: 'absolute',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    position: "absolute",
     bottom: 20,
-    width: '100%',
+    width: "100%",
   },
 });
 
