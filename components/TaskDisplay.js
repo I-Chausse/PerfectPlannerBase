@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { users } from "../data/users";
 import Colors from "../utils/styles/Colors";
+import { flags } from "../data/flags";
 
 const ProjectTasksDisplay = ({ task }) => {
   const navigation = useNavigation();
@@ -32,13 +33,30 @@ const ProjectTasksDisplay = ({ task }) => {
           styles.label,
           {
             backgroundColor: Colors.status[task.etat.code],
-            borderColor:
-              task.etat.code === "A_FAIRE" ? Colors.mainBlue : Colors.mainWhite,
+            borderWidth: task.etat.code === "A_FAIRE" ? 1 : 0,
           },
         ]}
       >
         <Text>{task.etat.label}</Text>
       </View>
+      {task.remainingTime && (
+        <View
+          style={[
+            styles.labelBottomCenter,
+            styles.label,
+            { backgroundColor: Colors.mainWhite, borderWidth: 1 },
+          ]}
+        >
+          <Text> {task.remainingTime} </Text>
+        </View>
+      )}
+      {task.importance && (
+        <View style={[styles.labelBottomLeft, styles.label]}>
+          <Text>
+            {flags.find((flag) => flag.id === task.importance)?.label}
+          </Text>
+        </View>
+      )}
       {task.userId && (
         <View style={[styles.labelTopRight]}>
           <Image
@@ -73,16 +91,24 @@ const styles = StyleSheet.create({
     right: 10,
     bottom: 10,
   },
+  labelBottomCenter: {
+    position: "absolute",
+    left: "50%",
+    bottom: 10,
+  },
+  labelBottomLeft: {
+    position: "absolute",
+    left: 10,
+    bottom: 10,
+  },
   labelTopRight: {
     position: "absolute",
     right: 10,
     top: 10,
   },
   label: {
-    backgroundColor: "#eee",
+    backgroundColor: Colors.desatGray,
     borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "#034d7b",
     padding: 3,
   },
   avatar: {

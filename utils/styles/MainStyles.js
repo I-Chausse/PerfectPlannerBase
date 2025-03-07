@@ -42,6 +42,10 @@ const MainStyles = StyleSheet.create({
     justifyContent: "space-between",
     alignSelf: "start",
   },
+  selectInput: {
+    borderBottomWidth: 1,
+    borderColor: Colors.mainBlue,
+  },
 
   //btns
   mainBtn: {

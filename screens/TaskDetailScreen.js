@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
 import EditableText from "../components/editableFields/EditableText";
 import EditableNumber from "../components/editableFields/EditableNumber";
+import ItemSelector from "../components/ItemSelector";
 import { users } from "../data/users";
-import { taches } from "../data/taches";
+import { flags } from "../data/flags";
 import Popup from "../components/ConfirmationPopUp";
 import MainStyles from "../utils/styles/MainStyles";
 import Colors from "../utils/styles/Colors";
@@ -135,14 +136,19 @@ const TaskDetailScreen = ({ route }) => {
             <Ionicons name="create-outline" size={22} />
           </TouchableOpacity>
         </View>
-        <View style={styles.customSelectContainer}>
-          <EditableNumber
-            value={editedTask.remainingTime ?? null}
-            onSave={(value) => handleSave("remainingTime", value)}
-            label="Restant"
-          />
-          
+        <View style={styles.propertyItem}>
+            <EditableNumber
+              value={editedTask.remainingTime ?? null}
+              onSave={(value) => handleSave("remainingTime", value)}
+              label="Restant"
+            />
         </View>
+        <ItemSelector
+          label={"Importance"}
+          selectedItem={editedTask.importance ?? null}
+          onItemChange={(value) => handleSave("importance", value)}
+          items={flags}
+        />
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -173,7 +179,7 @@ const styles = StyleSheet.create({
   propertyItem: {
     borderBottomWidth: 1,
     borderBottomColor: Colors.mainBlue,
-    marginBottom: 10,
+    marginBottom: 15,
   },
 
   button: {
@@ -193,6 +199,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     rowGap: 10,
+    marginBottom: 15,
   },
   avatarSecondContainer: {
     flexDirection: "row",

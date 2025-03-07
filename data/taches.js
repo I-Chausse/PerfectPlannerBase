@@ -6,6 +6,8 @@ const taches = [
     projetId: 1,
     etat: { code: "TERMINE", label: "Terminée" },
     userId: Math.floor(Math.random() * 10) + 1,
+    remainingTime: 0,
+    importance: 3,
   },
   {
     id: 2,
@@ -14,6 +16,8 @@ const taches = [
     projetId: 1,
     etat: { code: "EN_REVUE", label: "Revue" },
     userId: Math.floor(Math.random() * 10) + 1,
+    remainingTime: 1,
+    importance: 4,
   },
   {
     id: 3,
@@ -22,6 +26,8 @@ const taches = [
     projetId: 1,
     etat: { code: "BLOQUE", label: "Bloquée" },
     userId: Math.floor(Math.random() * 10) + 1,
+    remainingTime: 2,
+    importance: 5,
   },
   {
     id: 4,
@@ -30,6 +36,8 @@ const taches = [
     projetId: 1,
     etat: { code: "EN_COURS", label: "En cours" },
     userId: Math.floor(Math.random() * 10) + 1,
+    remainingTime: 2,
+    importance: 2,
   },
   {
     id: 5,
