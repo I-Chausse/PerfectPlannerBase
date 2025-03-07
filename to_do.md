@@ -1,7 +1,6 @@
-bug: click depuis home vers taches j'arrive sur detail si detail encore ouvert
-
 Avatar upload + photo
-reset la stack en cas de nav depuis projet
+
+Ajouter epic et RAF
 
 Extraire les etats via IDs ?
 

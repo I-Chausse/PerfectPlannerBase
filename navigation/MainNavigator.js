@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
-import UsersScreen from "../screens/UsersScreen.js";
+import UserNavigator from "./UserNavigator.js";
 import TaskNavigator from "./TaskNavigator.js";
 import AccountNavigator from "./AccountNavigator.js";
 import LoginScreen from "../screens/LoginScreen.js";
@@ -36,8 +36,8 @@ const MainNavigator = () => {
         {signedIn ? (
           <>
             <Tab.Screen
-              name="UsersScreen"
-              component={UsersScreen}
+              name="UserNavigator"
+              component={UserNavigator}
               options={{
                 tabBarLabel: admin ? "Utilisateurs" : "Mes tâches",
                 tabBarIcon: ({ color, size }) => (

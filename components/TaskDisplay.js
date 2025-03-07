@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { users } from "../data/users";
 import Colors from "../utils/styles/Colors";
 
-const ProjectTasksDisplay = ({ task, link = true }) => {
+const ProjectTasksDisplay = ({ task }) => {
   const navigation = useNavigation();
   const navigateToTaskDetails = () => {
     navigation.navigate("TaskDetailNavigator", {
@@ -23,10 +23,7 @@ const ProjectTasksDisplay = ({ task, link = true }) => {
   };
 
   return (
-    <TouchableOpacity
-      style={styles.task}
-      onPress={link ? navigateToTaskDetails : null}
-    >
+    <TouchableOpacity style={styles.task} onPress={navigateToTaskDetails}>
       <Text style={styles.cardTitle}>{task.nom}</Text>
       <Text numberOfLines={3}>{task.description}</Text>
       <View

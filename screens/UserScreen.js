@@ -11,7 +11,7 @@ import { users } from "../data/users";
 
 import MainStyles from "../utils/styles/MainStyles";
 
-const TasksScreen = () => {
+const UserScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const initialUser = users[0];
@@ -33,4 +33,4 @@ const TasksScreen = () => {
 
 const styles = StyleSheet.create({});
 
-export default TasksScreen;
+export default UserScreen;
