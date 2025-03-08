@@ -2,10 +2,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import UserScreen from "../screens/UserScreen.js";
 import TaskDetailNavigator from "./TaskDetailNavigator.js";
+import { useAuth } from "../contexts/AuthContext";
 
 const Stack = createStackNavigator();
 
 const UserNavigator = () => {
+  const { admin } = useAuth();
   return (
     <Stack.Navigator
       screenOptions={{
@@ -21,7 +23,7 @@ const UserNavigator = () => {
         name="UserScreen"
         component={UserScreen}
         options={{
-          headerShown: false,
+          title: admin ? "Utilisateurs" : "Mes tâches",
         }}
       />
       <Stack.Screen

@@ -1,9 +1,7 @@
 import React, { createContext, useState, useContext } from "react";
 
-// Créer le contexte
 const AuthContext = createContext();
 
-// Créer le Provider
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [admin, setAdmin] = useState(false);

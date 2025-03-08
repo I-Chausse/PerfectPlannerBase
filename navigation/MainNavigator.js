@@ -8,7 +8,6 @@ import TaskNavigator from "./TaskNavigator.js";
 import AccountNavigator from "./AccountNavigator.js";
 import LoginScreen from "../screens/LoginScreen.js";
 import RegisterScreen from "../screens/RegisterScreen.js";
-
 import { useAuth } from "../contexts/AuthContext";
 
 const Tab = createBottomTabNavigator();
@@ -43,7 +42,7 @@ const MainNavigator = () => {
                 tabBarIcon: ({ color, size }) => (
                   <Ionicons name="apps-outline" size={size} color={color} />
                 ),
-                title: admin ? "Utilisateurs" : "Mes tâches",
+                headerShown: false,
               }}
             />
             <Tab.Screen

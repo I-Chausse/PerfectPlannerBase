@@ -28,20 +28,15 @@ const ProjectTasksDisplay = ({ task }) => {
     <TouchableOpacity style={styles.task} onPress={navigateToTaskDetails}>
       <Text style={styles.cardTitle}>{task.nom}</Text>
       <Text numberOfLines={3}>{task.description}</Text>
-      <View style={[styles.labelBottomRight, styles.label]}
-      >
+      <View style={[styles.labelBottomRight, styles.label]}>
         <TaskLabel
           label={task.etat.label}
           color={Colors.status[task.etat.code]}
-          />
+        />
       </View>
       {task.remainingTime != null && (
         <View
-          style={[
-            styles.labelBottomCenter,
-            styles.label,
-            styles.timeLabel,
-          ]}
+          style={[styles.labelBottomCenter, styles.label, styles.timeLabel]}
         >
           <Text> {task.remainingTime} </Text>
         </View>
@@ -49,8 +44,8 @@ const ProjectTasksDisplay = ({ task }) => {
       {task.importance != null && (
         <View style={[styles.labelBottomLeft, styles.label]}>
           <TaskLabel
-          label={flags.find((flag) => flag.code === task.importance)?.label}
-          color={Colors.flags[task.importance]}
+            label={flags.find((flag) => flag.code === task.importance)?.label}
+            color={Colors.flags[task.importance]}
           />
         </View>
       )}
