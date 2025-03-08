@@ -42,11 +42,9 @@ const TaskDetailScreen = ({ route }) => {
 
   const handleUserSave = (userId) => {
     handleSave("userId", userId);
-    if (editedTask.userId !== initialTask.userId) {
       setPopupMessage("Utilisateur changé");
       setIsSuccess(true);
       setPopupVisible(true);
-    }
   };
 
   const saveChanges = () => {
@@ -129,12 +127,12 @@ const TaskDetailScreen = ({ route }) => {
             )}
           </TouchableOpacity>
           <View style={{ width: "50%" }}>
-            <ItemSelector
-              label={"Statut"}
-              selectedItem={editedTask.status ?? null}
-              onItemChange={(value) => handleSave("status", value)}
-              items={status}
-            />
+          <ItemSelector
+          label={"Statut"}
+          selectedItem={editedTask.status ?? null}
+          onItemChange={(value) => handleSave("status", value)}
+          items={status}
+        />
           </View>
         </View>
         <View style={styles.propertyItem}>
