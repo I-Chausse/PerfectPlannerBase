@@ -1,9 +1,5 @@
-navigate back payload
+Ajouter Stats sur users (total assigné) + fix nav top bar
 Upload avatar + photo ?
-Ajouter boutons enregistrer sur profil
-revoir popup
-
-Extraire les etats via IDs ?
 
 #034d7b
 

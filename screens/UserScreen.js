@@ -24,9 +24,9 @@ const UserScreen = () => {
         <UserSelector
           selectedUser={selectedUser}
           onUserChange={setSelectedUser}
-        ></UserSelector>
+        />
       ) : null}
-      <UserTasksDisplay user={selectedUser}></UserTasksDisplay>
+      <UserTasksDisplay user={selectedUser} />
     </View>
   );
 };

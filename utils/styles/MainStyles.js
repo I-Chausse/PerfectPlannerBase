@@ -70,6 +70,15 @@ const MainStyles = StyleSheet.create({
   secBtnText: {
     color: Colors.mainBlack,
   },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+  },
+  bottomButtonContainer: {
+    position: "absolute",
+    bottom: 20,
+  },
 
   // avatars
   avatar: {

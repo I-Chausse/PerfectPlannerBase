@@ -9,17 +9,43 @@ import { useAuth } from "../contexts/AuthContext";
 import MainStyles from "../utils/styles/MainStyles";
 import Colors from "../utils/styles/Colors";
 import { setCallback } from "../utils/CallbackManager";
+import Popup from "../components/ConfirmationPopUp";
 
 const AccountScreen = () => {
   const navigation = useNavigation();
   const initialUser = users[0];
   const [editedUser, setEditedUser] = useState(initialUser);
   const [originalUser, setOriginalUser] = useState(initialUser);
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(true);
 
   useEffect(() => {
     setOriginalUser(initialUser);
     setEditedUser(initialUser);
   }, [users[0]]);
+
+  const cancelChanges = () => {
+    setEditedUser(originalUser);
+  };
+
+  const saveChanges = () => {
+    const success = true;
+    if (success) {
+      setPopupMessage("Enregistrement réussi !");
+      setIsSuccess(true);
+    } else {
+      setPopupMessage("Échec de l'enregistrement.");
+      setIsSuccess(false);
+    }
+    setPopupVisible(true);
+  };
+
+  const openPopup = (message, success) => {
+    setPopupMessage(message);
+    setIsSuccess(success);
+    setPopupVisible(true);
+  };
 
   const handleSave = (field, value) => {
     setEditedUser((prevUser) => ({ ...prevUser, [field]: value }));
@@ -38,6 +64,12 @@ const AccountScreen = () => {
     });
   };
 
+  const navigateToChangePassword = () => {
+    const callbackId = "setPopUp";
+    setCallback(callbackId, openPopup);
+    navigation.navigate("ChangePasswordScreen", { callbackId });
+  };
+
   const avatarImages = {
     "avatar1.png": require("../assets/avatar1.png"),
     "avatar2.png": require("../assets/avatar2.png"),
@@ -48,9 +80,19 @@ const AccountScreen = () => {
 
   const { logout } = useAuth();
 
+  const handlePopupClose = () => {
+    setPopupVisible(false);
+  };
+
   return (
     <View style={MainStyles.container}>
       <View style={[MainStyles.mainCard, styles.mainCard]}>
+        <Popup
+          visible={popupVisible}
+          message={popupMessage}
+          isSuccess={isSuccess}
+          onClose={handlePopupClose}
+        />
         <View style={styles.topContainer}>
           <Text style={styles.customText}>
             <Text style={MainStyles.bold}>Compte :</Text>{" "}
@@ -58,7 +100,7 @@ const AccountScreen = () => {
           </Text>
           <TouchableOpacity
             onPress={navigateToAvatarSelection}
-            style={styles.avatarContainer}
+            style={[styles.avatarContainer, MainStyles.selectInput]}
           >
             <Image
               style={styles.avatar}
@@ -68,25 +110,57 @@ const AccountScreen = () => {
           </TouchableOpacity>
         </View>
 
-        <EditableText
-          value={editedUser.nom}
-          onSave={(value) => handleSave("nom", value)}
-          label="Nom"
-        />
-        <EditableText
-          value={editedUser.prenom}
-          onSave={(value) => handleSave("prenom", value)}
-          label="Prénom"
-        />
-        <EditableText
-          value={editedUser.email}
-          onSave={(value) => handleSave("email", value)}
-          label="Email"
-        />
+        <View style={styles.input}>
+          <EditableText
+            value={editedUser.nom}
+            onSave={(value) => handleSave("nom", value)}
+            label="Nom"
+          />
+        </View>
+        <View style={styles.input}>
+          <EditableText
+            value={editedUser.prenom}
+            onSave={(value) => handleSave("prenom", value)}
+            label="Prénom"
+          />
+        </View>
+        <View style={styles.input}>
+          <EditableText
+            value={editedUser.email}
+            onSave={(value) => handleSave("email", value)}
+            label="Email"
+          />
+        </View>
       </View>
-      <View>
-        <TouchableOpacity onPress={logout} style={MainStyles.secBtn}>
+
+      <View style={MainStyles.buttonContainer}>
+        <TouchableOpacity
+          onPress={navigateToChangePassword}
+          style={[MainStyles.secBtn, styles.button]}
+        >
+          <Text style={MainStyles.secBtnText}>Mot de passe</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={logout}
+          style={[MainStyles.secBtn, styles.button]}
+        >
           <Text style={MainStyles.secBtnText}>Deconnexion</Text>
+        </TouchableOpacity>
+      </View>
+      <View
+        style={[MainStyles.buttonContainer, MainStyles.bottomButtonContainer]}
+      >
+        <TouchableOpacity
+          onPress={cancelChanges}
+          style={[MainStyles.secBtn, styles.button]}
+        >
+          <Text style={MainStyles.secBtnText}>Annuler</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={saveChanges}
+          style={[MainStyles.mainBtn, styles.button]}
+        >
+          <Text style={MainStyles.mainBtnText}>Enregistrer</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -101,6 +175,7 @@ const styles = {
   customText: {
     marginLeft: 5,
     fontSize: 16,
+    paddingTop: 5,
   },
   avatar: {
     width: 30,
@@ -122,9 +197,21 @@ const styles = {
   },
   avatarContainer: {
     flexDirection: "row",
-    marginEnd: 5,
     justifyContent: "flex-end",
     alignItems: "center",
+    paddingBottom: 5,
+    marginBottom: 10,
+  },
+
+  button: {
+    width: "40%",
+    padding: 10,
+  },
+
+  input: {
+    marginBottom: 10,
+    borderColor: Colors.mainBlue,
+    borderBottomWidth: 1,
   },
 };
 

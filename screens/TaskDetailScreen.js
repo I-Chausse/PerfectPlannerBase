@@ -42,9 +42,9 @@ const TaskDetailScreen = ({ route }) => {
 
   const handleUserSave = (userId) => {
     handleSave("userId", userId);
-      setPopupMessage("Utilisateur changé");
-      setIsSuccess(true);
-      setPopupVisible(true);
+    setPopupMessage("Utilisateur changé");
+    setIsSuccess(true);
+    setPopupVisible(true);
   };
 
   const saveChanges = () => {
@@ -127,12 +127,12 @@ const TaskDetailScreen = ({ route }) => {
             )}
           </TouchableOpacity>
           <View style={{ width: "50%" }}>
-          <ItemSelector
-          label={"Statut"}
-          selectedItem={editedTask.status ?? null}
-          onItemChange={(value) => handleSave("status", value)}
-          items={status}
-        />
+            <ItemSelector
+              label={"Statut"}
+              selectedItem={editedTask.status ?? null}
+              onItemChange={(value) => handleSave("status", value)}
+              items={status}
+            />
           </View>
         </View>
         <View style={styles.propertyItem}>
@@ -149,7 +149,9 @@ const TaskDetailScreen = ({ route }) => {
           items={flags}
         />
       </View>
-      <View style={styles.buttonContainer}>
+      <View
+        style={[MainStyles.buttonContainer, MainStyles.bottomButtonContainer]}
+      >
         <TouchableOpacity
           onPress={cancelChanges}
           style={[MainStyles.secBtn, styles.button]}
@@ -204,13 +206,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    position: "absolute",
-    bottom: 20,
-    width: "100%",
   },
 });
 
