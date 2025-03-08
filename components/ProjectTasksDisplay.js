@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, FlatList } from "react-native";
+
 import TaskDisplay from "../components/TaskDisplay";
 import { taches } from "../data/taches";
 

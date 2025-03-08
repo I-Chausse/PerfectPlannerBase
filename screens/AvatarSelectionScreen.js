@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   TouchableOpacity,
   StyleSheet,
   FlatList,
   Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { getCallback } from "../utils/CallbackManager";
 
+import { getCallback } from "../utils/CallbackManager";
 import MainStyles from "../utils/styles/MainStyles";
 import Colors from "../utils/styles/Colors";
 

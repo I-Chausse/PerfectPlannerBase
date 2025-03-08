@@ -11,7 +11,12 @@ const UserTasksDisplay = ({ user }) => {
   const { admin } = useAuth();
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        !admin ? { paddingTop: 20, paddingBottom: 110 } : null,
+      ]}
+    >
       <UserTaskStats tasks={userTasks} />
       <FlatList
         data={userTasks}

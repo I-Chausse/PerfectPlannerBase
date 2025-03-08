@@ -17,9 +17,9 @@ const colors = {
   mainBlack: "#000",
 
   compSoftRose: "#ffc0cb",
-  primary: "#FF0000",
-  secondary: "#00FF00",
-  tertiary: "#0000FF",
+  succesGreen: "#00d062",
+  errorRed: "#FF6666",
+  warningYellow: "#FFC722",
 
   status: {
     A_FAIRE: "#EEE",

@@ -1,8 +1,6 @@
 import { Picker } from "@react-native-picker/picker";
 import { View, Text, StyleSheet } from "react-native";
 
-import { users } from "../data/users";
-import Colors from "../utils/styles/Colors";
 import MainStyles from "../utils/styles/MainStyles";
 
 const ItemSelector = ({ label, selectedItem, onItemChange, items }) => {

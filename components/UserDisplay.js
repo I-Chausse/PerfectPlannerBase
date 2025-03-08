@@ -1,23 +1,9 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import {
-  useNavigation,
-  StackActions,
-  NavigationActions,
-} from "@react-navigation/native";
+import { Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 
 import Colors from "../utils/styles/Colors";
 
 const UserDisplay = ({ user }) => {
-  const navigation = useNavigation();
-
-  const navigateToTasks = () => {
-    navigation.navigate("TaskNavigator", {
-      screen: "TasksScreen",
-      params: { reset: true, projet: projet },
-    });
-  };
-
   const avatarImages = {
     "avatar1.png": require("../assets/avatar1.png"),
     "avatar2.png": require("../assets/avatar2.png"),

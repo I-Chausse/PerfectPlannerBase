@@ -1,15 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
   FlatList,
-  Image,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { status } from "../data/status";
 import { Ionicons } from "@expo/vector-icons";
+
+import { status } from "../data/status";
 import MainStyles from "../utils/styles/MainStyles";
 import Colors from "../utils/styles/Colors";
 

@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Animated } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+
+import Colors from "../utils/styles/Colors";
 
 const Popup = ({ visible, message, isSuccess, onClose }) => {
   const fadeAnim = new Animated.Value(0);
@@ -8,21 +11,21 @@ const Popup = ({ visible, message, isSuccess, onClose }) => {
     if (visible) {
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 500,
+        duration: 600,
         useNativeDriver: true,
       }).start();
 
       const timer = setTimeout(() => {
         Animated.timing(fadeAnim, {
           toValue: 0,
-          duration: 500,
+          duration: 1500,
           useNativeDriver: true,
         }).start(() => {
           if (onClose) {
             onClose();
           }
         });
-      }, 5000);
+      }, 1500);
 
       return () => clearTimeout(timer);
     }
@@ -36,7 +39,15 @@ const Popup = ({ visible, message, isSuccess, onClose }) => {
         isSuccess ? styles.success : styles.error,
       ]}
     >
-      <Text style={styles.popupText}>{message}</Text>
+      <View style={styles.msgContainer}>
+        <Ionicons
+          name={isSuccess ? "checkmark-circle" : "close-circle"}
+          color={Colors.mainWhite}
+          size={24}
+          style={styles.icon}
+        />
+        <Text style={styles.popupText}>{message}</Text>
+      </View>
     </Animated.View>
   );
 };
@@ -51,15 +62,16 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   popupText: {
-    color: "#fff",
+    color: Colors.mainWhite,
     fontSize: 16,
   },
   success: {
-    backgroundColor: "green",
+    backgroundColor: Colors.succesGreen,
   },
   error: {
-    backgroundColor: "red",
+    backgroundColor: Colors.errorRed,
   },
+  msgContainer: { flexDirection: "row", alignItems: "center", columnGap: 10 },
 });
 
 export default Popup;

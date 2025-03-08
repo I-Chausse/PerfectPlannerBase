@@ -9,7 +9,6 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 
 import Logo from "../components/Logo";
-import Colors from "../utils/styles/Colors";
 import MainStyles from "../utils/styles/MainStyles";
 
 const LoginScreen = () => {

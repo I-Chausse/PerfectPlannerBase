@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -29,6 +29,7 @@ const TaskDetailScreen = ({ route }) => {
     "avatar3.png": require("../assets/avatar3.png"),
     "avatar4.png": require("../assets/avatar4.png"),
     "avatar5.png": require("../assets/avatar5.png"),
+    avatarUndefined: require("../assets/avatarUndefined.png"),
   };
 
   useEffect(() => {
@@ -106,25 +107,26 @@ const TaskDetailScreen = ({ route }) => {
             onPress={navigateToUserSelection}
             style={styles.customNavigator}
           >
-            {editedTask.userId && (
-              <View style={styles.avatarSecondContainer}>
-                <Image
-                  style={MainStyles.avatar}
-                  source={
-                    avatarImages[
-                      users.find((user) => user.id === editedTask.userId).avatar
-                    ]
-                  }
-                />
+            <View style={styles.avatarSecondContainer}>
+              <Image
+                style={MainStyles.avatar}
+                source={
+                  avatarImages[
+                    users.find((user) => user.id === editedTask.userId)
+                      ?.avatar ?? "avatarUndefined"
+                  ]
+                }
+              />
+              {editedTask.userId && (
                 <Text style={MainStyles.mx10}>
                   {users
                     .find((user) => user.id === editedTask.userId)
                     .prenom.charAt(0) + "."}{" "}
                   {users.find((user) => user.id === editedTask.userId).nom}
                 </Text>
-                <Ionicons name="create-outline" size={22} />
-              </View>
-            )}
+              )}
+              <Ionicons name="create-outline" size={22} />
+            </View>
           </TouchableOpacity>
           <View style={{ width: "50%" }}>
             <ItemSelector

@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { useRoute } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 import ProjectTasksDisplay from "../components/ProjectTasksDisplay";
 import ProjectSelector from "../components/ProjectSelector";
 import { projets } from "../data/projets";
-import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-
 import MainStyles from "../utils/styles/MainStyles";
 
 const TasksScreen = () => {
