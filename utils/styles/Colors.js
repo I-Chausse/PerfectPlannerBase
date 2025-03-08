@@ -22,11 +22,19 @@ const colors = {
   tertiary: "#0000FF",
 
   status: {
-    A_FAIRE: "#FFF",
+    A_FAIRE: "#EEE",
     EN_COURS: "#aeb6bf",
     EN_REVUE: "#D6F49D",
     TERMINE: "#00d062",
     BLOQUE: "#ffc0cb",
+  },
+
+  flags: {
+    BUG: "#FF6666",
+    URG: "#FFC722",
+    IMP: "#FFAA77",
+    MIN: "#77FF77",
+    OPT: "#7777FF",
   },
 };
 

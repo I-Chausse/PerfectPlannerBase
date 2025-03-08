@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { users } from "../data/users";
 import Colors from "../utils/styles/Colors";
 import { flags } from "../data/flags";
+import TaskLabel from "./TaskLabel";
 
 const ProjectTasksDisplay = ({ task }) => {
   const navigation = useNavigation();
@@ -27,24 +28,19 @@ const ProjectTasksDisplay = ({ task }) => {
     <TouchableOpacity style={styles.task} onPress={navigateToTaskDetails}>
       <Text style={styles.cardTitle}>{task.nom}</Text>
       <Text numberOfLines={3}>{task.description}</Text>
-      <View
-        style={[
-          styles.labelBottomRight,
-          styles.label,
-          {
-            backgroundColor: Colors.status[task.etat.code],
-            borderWidth: task.etat.code === "A_FAIRE" ? 1 : 0,
-          },
-        ]}
+      <View style={[styles.labelBottomRight, styles.label]}
       >
-        <Text>{task.etat.label}</Text>
+        <TaskLabel
+          label={task.etat.label}
+          color={Colors.status[task.etat.code]}
+          />
       </View>
       {task.remainingTime != null && (
         <View
           style={[
             styles.labelBottomCenter,
             styles.label,
-            { backgroundColor: Colors.mainWhite, borderWidth: 1 },
+            styles.timeLabel,
           ]}
         >
           <Text> {task.remainingTime} </Text>
@@ -52,9 +48,10 @@ const ProjectTasksDisplay = ({ task }) => {
       )}
       {task.importance != null && (
         <View style={[styles.labelBottomLeft, styles.label]}>
-          <Text>
-            {flags.find((flag) => flag.code === task.importance)?.label}
-          </Text>
+          <TaskLabel
+          label={flags.find((flag) => flag.code === task.importance)?.label}
+          color={Colors.flags[task.importance]}
+          />
         </View>
       )}
       {task.userId != null && (
@@ -76,6 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 15,
+    width: "90%",
   },
   task: {
     padding: 5,
@@ -107,9 +105,8 @@ const styles = StyleSheet.create({
     top: 10,
   },
   label: {
-    backgroundColor: Colors.desatGray,
     borderRadius: 5,
-    padding: 3,
+    boxShadow: "1px 1px 2px 1px #CCC",
   },
   avatar: {
     width: 30,
@@ -117,6 +114,10 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderColor: "#034d7b",
     borderWidth: 1,
+  },
+  timeLabel: {
+    padding: 2,
+    boxShadow: "2px 2px 2px 1px #CCC",
   },
 });
 

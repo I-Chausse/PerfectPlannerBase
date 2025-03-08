@@ -8,6 +8,7 @@ import UserTasksDisplay from "../components/UserTasksDisplay";
 import UserSelector from "../components/UserSelector";
 import { useAuth } from "../contexts/AuthContext";
 import { users } from "../data/users";
+import { taches } from "../data/taches";
 
 import MainStyles from "../utils/styles/MainStyles";
 
@@ -18,6 +19,8 @@ const UserScreen = () => {
   const [selectedUser, setSelectedUser] = useState(initialUser);
   const { admin } = useAuth();
 
+  const userTasks = taches.filter((tache) => tache.userId === selectedUser.id);
+
   return (
     <View style={[MainStyles.container, styles.container]}>
       {admin ? (
@@ -26,7 +29,7 @@ const UserScreen = () => {
           onUserChange={setSelectedUser}
         />
       ) : null}
-      <UserTasksDisplay user={selectedUser} />
+      <UserTasksDisplay user={selectedUser} tasks={userTasks} />
     </View>
   );
 };

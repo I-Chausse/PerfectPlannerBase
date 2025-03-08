@@ -1,4 +1,5 @@
-Ajouter Stats sur users (total assigné) + fix nav top bar
+fix nav top bar
+
 Upload avatar + photo ?
 
 #034d7b
