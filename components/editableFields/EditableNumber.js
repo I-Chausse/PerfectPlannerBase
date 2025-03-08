@@ -11,7 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import MainStyles from "../../utils/styles/MainStyles";
 import Colors from "../../utils/styles/Colors";
 
-const EditableField = ({ value, onSave, label, multiLine }) => {
+const EditableField = ({ value, onSave, label }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [localValue, setLocalValue] = useState(value);
 
@@ -29,7 +29,7 @@ const EditableField = ({ value, onSave, label, multiLine }) => {
             style={[MainStyles.input, styles.input]}
             value={localValue}
             onChangeText={setLocalValue}
-            multiline={multiLine}
+            keyboardType="numeric"
           />
         </View>
       ) : (
