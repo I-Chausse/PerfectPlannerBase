@@ -39,7 +39,7 @@ const ProjectTasksDisplay = ({ task }) => {
       >
         <Text>{task.etat.label}</Text>
       </View>
-      {task.remainingTime && (
+      {task.remainingTime != null && (
         <View
           style={[
             styles.labelBottomCenter,
@@ -50,14 +50,14 @@ const ProjectTasksDisplay = ({ task }) => {
           <Text> {task.remainingTime} </Text>
         </View>
       )}
-      {task.importance && (
+      {task.importance != null && (
         <View style={[styles.labelBottomLeft, styles.label]}>
           <Text>
-            {flags.find((flag) => flag.id === task.importance)?.label}
+            {flags.find((flag) => flag.code === task.importance)?.label}
           </Text>
         </View>
       )}
-      {task.userId && (
+      {task.userId != null && (
         <View style={[styles.labelTopRight]}>
           <Image
             style={styles.avatar}

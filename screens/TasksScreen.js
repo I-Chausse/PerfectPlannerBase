@@ -13,9 +13,7 @@ import MainStyles from "../utils/styles/MainStyles";
 const TasksScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const initialProject = route.params?.params?.projet
-    ? route.params.params.projet
-    : projets[0];
+  const initialProject = projets[0];
   const [selectedProject, setSelectedProject] = useState(initialProject);
 
   const navigateToNewTask = () => {
@@ -36,8 +34,8 @@ const TasksScreen = () => {
       <ProjectSelector
         selectedProject={selectedProject}
         onProjectChange={setSelectedProject}
-      ></ProjectSelector>
-      <ProjectTasksDisplay projet={selectedProject}></ProjectTasksDisplay>
+      />
+      <ProjectTasksDisplay projet={selectedProject} />
       <TouchableOpacity style={[MainStyles.mainBtn, styles.button]}>
         <Ionicons
           name="add-outline"

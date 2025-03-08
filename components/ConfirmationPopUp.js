@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Animated } from "react-native";
 
-const Popup = ({ visible, message, isSuccess }) => {
+const Popup = ({ visible, message, isSuccess, onClose }) => {
   const fadeAnim = new Animated.Value(0);
-  console.log("Popup rendered");
 
   useEffect(() => {
     if (visible) {
@@ -19,7 +18,9 @@ const Popup = ({ visible, message, isSuccess }) => {
           duration: 500,
           useNativeDriver: true,
         }).start(() => {
-          // Inform the parent that the popup has disappeared
+          if (onClose) {
+            onClose();
+          }
         });
       }, 5000);
 

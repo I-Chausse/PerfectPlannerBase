@@ -1,6 +1,7 @@
-Avatar upload + photo
-
-Ajouter epic et RAF
+navigate back payload
+Upload avatar + photo ?
+Ajouter boutons enregistrer sur profil
+revoir popup
 
 Extraire les etats via IDs ?
 

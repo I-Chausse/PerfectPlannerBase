@@ -11,6 +11,8 @@ import { flags } from "../data/flags";
 import Popup from "../components/ConfirmationPopUp";
 import MainStyles from "../utils/styles/MainStyles";
 import Colors from "../utils/styles/Colors";
+import { setCallback } from "../utils/CallbackManager";
+import { status } from "../data/status";
 
 const TaskDetailScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -38,6 +40,15 @@ const TaskDetailScreen = ({ route }) => {
     setEditedTask((prevTask) => ({ ...prevTask, [field]: value }));
   };
 
+  const handleUserSave = (userId) => {
+    handleSave("userId", userId);
+    if (editedTask.userId !== initialTask.userId) {
+      setPopupMessage("Utilisateur changé");
+      setIsSuccess(true);
+      setPopupVisible(true);
+    }
+  };
+
   const saveChanges = () => {
     const success = true;
     if (success) {
@@ -55,28 +66,17 @@ const TaskDetailScreen = ({ route }) => {
   };
 
   const navigateToUserSelection = () => {
+    const callbackId = "userSelect";
+    setCallback(callbackId, handleUserSave);
     navigation.navigate("UserSelectionScreen", {
       users: users,
       task: editedTask,
-      handleSave: handleSave,
-      onGoBack: () => {
-        setPopupMessage("Utilisateur modifié.");
-        setIsSuccess(true);
-        setPopupVisible(true);
-      },
+      callbackId: callbackId,
     });
   };
 
-  const navigateToStatusSelection = () => {
-    navigation.navigate("StatusSelectionScreen", {
-      task: editedTask,
-      handleSave: handleSave,
-      onGoBack: () => {
-        setPopupMessage("Statut modifié.");
-        setIsSuccess(true);
-        setPopupVisible(true);
-      },
-    });
+  const handlePopupClose = () => {
+    setPopupVisible(false);
   };
 
   return (
@@ -85,6 +85,7 @@ const TaskDetailScreen = ({ route }) => {
         visible={popupVisible}
         message={popupMessage}
         isSuccess={isSuccess}
+        onClose={handlePopupClose}
       />
       <View style={[MainStyles.mainCard, styles.mainCard]}>
         <View style={styles.propertyItem}>
@@ -127,21 +128,21 @@ const TaskDetailScreen = ({ route }) => {
               </View>
             )}
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={navigateToStatusSelection}
-            style={styles.customNavigator}
-          >
-            <Text style={MainStyles.bold}>Statut: </Text>
-            <Text style={MainStyles.mx10}>{editedTask.etat.label}</Text>
-            <Ionicons name="create-outline" size={22} />
-          </TouchableOpacity>
+          <View style={{ width: "50%" }}>
+            <ItemSelector
+              label={"Statut"}
+              selectedItem={editedTask.status ?? null}
+              onItemChange={(value) => handleSave("status", value)}
+              items={status}
+            />
+          </View>
         </View>
         <View style={styles.propertyItem}>
-            <EditableNumber
-              value={editedTask.remainingTime ?? null}
-              onSave={(value) => handleSave("remainingTime", value)}
-              label="Restant"
-            />
+          <EditableNumber
+            value={editedTask.remainingTime ?? null}
+            onSave={(value) => handleSave("remainingTime", value)}
+            label="Restant"
+          />
         </View>
         <ItemSelector
           label={"Importance"}

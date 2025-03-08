@@ -26,7 +26,6 @@ const RegisterScreen = () => {
       Alert.alert("Veuillez remplir tous les champs");
     } else {
       if (validationCode === "1234") {
-        // Remplacez par la logique de validation réelle
         login("mock-jwt-token");
         Alert.alert("Compte créé avec succès !");
       } else {

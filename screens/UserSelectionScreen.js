@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -7,14 +7,16 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import { useNavigation, useEffect } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
 import MainStyles from "../utils/styles/MainStyles";
 import Colors from "../utils/styles/Colors";
+import { getCallback } from "../utils/CallbackManager";
 
-const UserSelectionScreen = ({ route, navigation }) => {
-  const { users, task, handleSave } = route.params;
+const UserSelectionScreen = ({ route }) => {
+  const { users, task, callbackId } = route.params;
+  const navigation = useNavigation();
 
   const avatarImages = {
     "avatar1.png": require("../assets/avatar1.png"),
@@ -24,15 +26,18 @@ const UserSelectionScreen = ({ route, navigation }) => {
     "avatar5.png": require("../assets/avatar5.png"),
   };
 
-  const handleUserSelect = (user) => {
-    handleSave("userId", user.id);
+  const handleUserSelect = (userId) => {
+    const callback = getCallback(callbackId);
+    if (callback) {
+      callback(userId);
+    }
     navigation.goBack();
   };
 
   const renderUserItem = ({ item }) => (
     <TouchableOpacity
       style={styles.userItem}
-      onPress={() => handleUserSelect(item)}
+      onPress={() => handleUserSelect(item.id)}
     >
       <Image style={styles.avatar} source={avatarImages[item.avatar]} />
       <Text>

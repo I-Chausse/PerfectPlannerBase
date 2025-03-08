@@ -2,17 +2,20 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { users } from "../data/users";
 import EditableText from "../components/editableFields/EditableText";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { useAuth } from "../contexts/AuthContext";
 import MainStyles from "../utils/styles/MainStyles";
 import Colors from "../utils/styles/Colors";
+import { setCallback } from "../utils/CallbackManager";
+
 const AccountScreen = () => {
   const navigation = useNavigation();
   const initialUser = users[0];
   const [editedUser, setEditedUser] = useState(initialUser);
   const [originalUser, setOriginalUser] = useState(initialUser);
+
   useEffect(() => {
     setOriginalUser(initialUser);
     setEditedUser(initialUser);
@@ -22,8 +25,17 @@ const AccountScreen = () => {
     setEditedUser((prevUser) => ({ ...prevUser, [field]: value }));
   };
 
+  const handleAvatarSave = (avatar) => {
+    handleSave("avatar", avatar);
+  };
+
   const navigateToAvatarSelection = () => {
-    navigation.navigate("AvatarSelectionScreen", { handleSave: handleSave });
+    const callbackId = "avatarSelect";
+    setCallback(callbackId, handleAvatarSave);
+    navigation.navigate("AvatarSelectionScreen", {
+      avatar: editedUser.avatar,
+      callbackId: "avatarSelect",
+    });
   };
 
   const avatarImages = {
@@ -60,17 +72,17 @@ const AccountScreen = () => {
           value={editedUser.nom}
           onSave={(value) => handleSave("nom", value)}
           label="Nom"
-        ></EditableText>
+        />
         <EditableText
           value={editedUser.prenom}
           onSave={(value) => handleSave("prenom", value)}
           label="Prénom"
-        ></EditableText>
+        />
         <EditableText
           value={editedUser.email}
           onSave={(value) => handleSave("email", value)}
           label="Email"
-        ></EditableText>
+        />
       </View>
       <View>
         <TouchableOpacity onPress={logout} style={MainStyles.secBtn}>

@@ -8,11 +8,14 @@ import {
   Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { getCallback } from "../utils/CallbackManager";
 
 import MainStyles from "../utils/styles/MainStyles";
+import Colors from "../utils/styles/Colors";
 
 const AvatarSelectionScreen = ({ route }) => {
-  const { handleSave } = route.params;
+  const { avatar, callbackId } = route.params;
+  const navigation = useNavigation();
 
   const avatarImages = {
     "avatar1.png": require("../assets/avatar1.png"),
@@ -22,11 +25,15 @@ const AvatarSelectionScreen = ({ route }) => {
     "avatar5.png": require("../assets/avatar5.png"),
   };
 
-  const [selectedAvatar, setSelectedAvatar] = useState(null);
+  const [selectedAvatar, setSelectedAvatar] = useState(avatar);
 
   const handleAvatarSelect = (avatar) => {
     setSelectedAvatar(avatar);
-    handleSave("avatar", avatar);
+    const callback = getCallback(callbackId);
+    if (callback) {
+      callback(avatar);
+    }
+    navigation.goBack();
   };
 
   return (
@@ -36,10 +43,15 @@ const AvatarSelectionScreen = ({ route }) => {
           data={Object.keys(avatarImages)}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => handleAvatarSelect(item)}>
-              <Image source={avatarImages[item]} style={styles.avatar} />
-              {selectedAvatar === item && (
-                <Text style={styles.selected}>Selected</Text>
-              )}
+              <Image
+                source={avatarImages[item]}
+                style={[
+                  styles.avatar,
+                  selectedAvatar === item
+                    ? { borderColor: Colors.accentOrange, borderWidth: 2 }
+                    : null,
+                ]}
+              />
             </TouchableOpacity>
           )}
           keyExtractor={(item) => item}

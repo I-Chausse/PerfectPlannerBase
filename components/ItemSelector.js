@@ -6,7 +6,6 @@ import Colors from "../utils/styles/Colors";
 import MainStyles from "../utils/styles/MainStyles";
 
 const ItemSelector = ({ label, selectedItem, onItemChange, items }) => {
-  console.log("items", items);
   return (
     <View style={[MainStyles.inputContainer, MainStyles.selectInput]}>
       <Text style={MainStyles.inputLabel}>{label}</Text>
@@ -18,7 +17,7 @@ const ItemSelector = ({ label, selectedItem, onItemChange, items }) => {
         }}
       >
         {items.map((item) => (
-          <Picker.Item key={item.id} label={item.label} value={item.id} />
+          <Picker.Item key={item.code} label={item.label} value={item.id} />
         ))}
       </Picker>
     </View>
