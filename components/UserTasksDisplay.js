@@ -30,7 +30,7 @@ const UserTasksDisplay = ({ user }) => {
 const styles = StyleSheet.create({
   container: {
     width: "90%",
-    paddingBottom: 180,
+    paddingBottom: 200,
   },
 });
 

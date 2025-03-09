@@ -26,14 +26,19 @@ const LoginScreen = () => {
       setIsSuccess(false);
       setPopupVisible(true);
     } else {
-      login("mock-jwt-token", userName === "admin");
+      login("mock-jwt-token", userName === "admin" || userName === "Durand");
     }
   };
 
   return (
     <View style={MainStyles.container}>
       <Logo></Logo>
-      <Popup visible={popupVisible} isSuccess={isSuccess} message={popupMessage} onClose={setPopupVisible}/>
+      <Popup
+        visible={popupVisible}
+        isSuccess={isSuccess}
+        message={popupMessage}
+        onClose={setPopupVisible}
+      />
       <View style={[styles.mainCard, MainStyles.mainCard]}>
         <View style={MainStyles.inputLabelContainer}>
           <Text style={MainStyles.inputLabel}>Nom d'utilisateur</Text>

@@ -13,7 +13,8 @@ import Popup from "../components/ConfirmationPopUp";
 
 const AccountScreen = () => {
   const navigation = useNavigation();
-  const initialUser = users[0];
+  const { admin } = useAuth();
+  const initialUser = admin ? users[2] : users[0];
   const [editedUser, setEditedUser] = useState(initialUser);
   const [originalUser, setOriginalUser] = useState(initialUser);
   const [popupVisible, setPopupVisible] = useState(false);
