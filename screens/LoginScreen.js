@@ -10,15 +10,21 @@ import { useAuth } from "../contexts/AuthContext";
 
 import Logo from "../components/Logo";
 import MainStyles from "../utils/styles/MainStyles";
+import Popup from "../components/ConfirmationPopUp";
 
 const LoginScreen = () => {
   const { login } = useAuth();
   const [userName, setUserName] = useState("");
   const [userPass, setUserPass] = useState("");
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(true);
 
   const validateAndLogin = () => {
     if (userName === "" || userPass === "") {
-      alert("Veuillez remplir tous les champs");
+      setPopupMessage("Veuillez remplir tous les champs");
+      setIsSuccess(false);
+      setPopupVisible(true);
     } else {
       login("mock-jwt-token", userName === "admin");
     }
@@ -27,6 +33,7 @@ const LoginScreen = () => {
   return (
     <View style={MainStyles.container}>
       <Logo></Logo>
+      <Popup visible={popupVisible} isSuccess={isSuccess} message={popupMessage} onClose={setPopupVisible}/>
       <View style={[styles.mainCard, MainStyles.mainCard]}>
         <View style={MainStyles.inputLabelContainer}>
           <Text style={MainStyles.inputLabel}>Nom d'utilisateur</Text>
