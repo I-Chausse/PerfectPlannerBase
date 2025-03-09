@@ -24,8 +24,16 @@ const ChangePasswordScreen = () => {
   const { callbackId } = route.params;
 
   const handleChangePassword = () => {
-    if (newPassword !== confirmPassword) {
-      setPopupMessage("Les mots de passe ne correspondent pas.");
+    if (
+      newPassword !== confirmPassword ||
+      newPassword === "" ||
+      confirmPassword === ""
+    ) {
+      if (newPassword === "" || confirmPassword === "") {
+        setPopupMessage("Veuillez remplir tous les champs.");
+      } else {
+        setPopupMessage("Les mots de passe ne correspondent pas.");
+      }
       setIsSuccess(false);
       setPopupVisible(true);
       return;

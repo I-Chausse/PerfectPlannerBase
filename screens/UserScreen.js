@@ -14,9 +14,9 @@ import MainStyles from "../utils/styles/MainStyles";
 const UserScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const initialUser = users[0];
-  const [selectedUser, setSelectedUser] = useState(initialUser);
   const { admin } = useAuth();
+  const initialUser = admin ? users[2] : users[0];
+  const [selectedUser, setSelectedUser] = useState(initialUser);
 
   const userTasks = taches.filter((tache) => tache.userId === selectedUser.id);
 
