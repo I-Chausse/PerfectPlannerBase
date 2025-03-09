@@ -29,7 +29,7 @@ const TaskDetailScreen = ({ route }) => {
     "avatar3.png": require("../assets/avatar3.png"),
     "avatar4.png": require("../assets/avatar4.png"),
     "avatar5.png": require("../assets/avatar5.png"),
-    avatarUndefined: require("../assets/avatarUndefined.png"),
+    "avatarUndefined": require("../assets/avatarUndefined.png"),
   };
 
   useEffect(() => {
