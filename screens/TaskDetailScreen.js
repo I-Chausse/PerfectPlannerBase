@@ -6,22 +6,26 @@ import { Ionicons } from "@expo/vector-icons";
 import EditableText from "../components/editableFields/EditableText";
 import EditableNumber from "../components/editableFields/EditableNumber";
 import ItemSelector from "../components/ItemSelector";
-import { users } from "../data/users";
-import { flags } from "../data/flags";
 import Popup from "../components/ConfirmationPopUp";
 import MainStyles from "../utils/styles/MainStyles";
 import Colors from "../utils/styles/Colors";
 import { setCallback } from "../utils/CallbackManager";
-import { status } from "../data/status";
+import { apiHost, apiPort } from "../utils/hosts";
+import { useAuth } from "../contexts/AuthContext";
 
 const TaskDetailScreen = ({ route }) => {
   const navigation = useNavigation();
   const initialTask = route.params?.task;
+  const projet = route.params?.projet;
+  const { token } = useAuth();
   const [editedTask, setEditedTask] = useState(initialTask);
   const [originalTask, setOriginalTask] = useState(initialTask);
   const [popupVisible, setPopupVisible] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(true);
+  const [status, setStatus] = useState([]);
+  const [flags, setFlags] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const avatarImages = {
     "avatar1.png": require("../assets/avatar1.png"),
@@ -29,20 +33,78 @@ const TaskDetailScreen = ({ route }) => {
     "avatar3.png": require("../assets/avatar3.png"),
     "avatar4.png": require("../assets/avatar4.png"),
     "avatar5.png": require("../assets/avatar5.png"),
+    1: require("../assets/avatar1.png"),
+    2: require("../assets/avatar2.png"),
+    3: require("../assets/avatar3.png"),
+    4: require("../assets/avatar4.png"),
+    5: require("../assets/avatar5.png"),
+    6: require("../assets/avatar1.png"),
+    7: require("../assets/avatar2.png"),
+    8: require("../assets/avatar3.png"),
+    9: require("../assets/avatar4.png"),
     "avatarUndefined": require("../assets/avatarUndefined.png"),
   };
 
   useEffect(() => {
-    setOriginalTask(initialTask);
-    setEditedTask(initialTask);
+    const fetchStatus = async () => {
+      try {
+        const response = await fetch(`http://${apiHost}:${apiPort}/api/get-items/status`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        });
+        const data = await response.json();
+        setStatus(data.data);
+      } catch (error) {
+        console.error("Error fetching status:", error);
+      }
+    };
+
+    const fetchFlags = async () => {
+      try {
+        const response = await fetch(`http://${apiHost}:${apiPort}/api/get-items/flags`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
+          }
+        );
+        const data = await response.json();
+        setFlags(data.data);
+      } catch (error) {
+        console.error("Error fetching flags:", error);
+      }
+    };
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(`http://${apiHost}:${apiPort}/api/projects/${projet.id}/assignables`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
+          }
+        );
+        const data = await response.json();
+        setUsers(data.data);
+      } catch (error) {
+        console.error("Error fetching flags:", error);
+      }
+    };
+
+    fetchStatus();
+    fetchFlags();
+    fetchUsers();
   }, [route.params.task]);
 
   const handleSave = (field, value) => {
     setEditedTask((prevTask) => ({ ...prevTask, [field]: value }));
   };
 
-  const handleUserSave = (userId) => {
-    handleSave("userId", userId);
+  const handleUserSave = (user) => {
+    handleSave("user", user);
     setPopupMessage("Utilisateur changé");
     setIsSuccess(true);
     setPopupVisible(true);
@@ -89,8 +151,8 @@ const TaskDetailScreen = ({ route }) => {
       <View style={[MainStyles.mainCard, styles.mainCard]}>
         <View style={styles.propertyItem}>
           <EditableText
-            value={editedTask.nom}
-            onSave={(value) => handleSave("nom", value)}
+            value={editedTask.name}
+            onSave={(value) => handleSave("name", value)}
             label="Titre"
           />
         </View>
@@ -112,17 +174,14 @@ const TaskDetailScreen = ({ route }) => {
                 style={MainStyles.avatar}
                 source={
                   avatarImages[
-                    users.find((user) => user.id === editedTask.userId)
-                      ?.avatar ?? "avatarUndefined"
+                    editedTask.user?.avatar_id ?? "avatarUndefined"
                   ]
                 }
               />
-              {editedTask.userId && (
+              {editedTask.user && (
                 <Text style={MainStyles.mx10}>
-                  {users
-                    .find((user) => user.id === editedTask.userId)
-                    .prenom.charAt(0) + "."}{" "}
-                  {users.find((user) => user.id === editedTask.userId).nom}
+                  {editedTask.user.first_name.charAt(0) + "."}{" "}
+                  {editedTask.user.name}
                 </Text>
               )}
               <Ionicons name="create-outline" size={22} />
@@ -131,7 +190,7 @@ const TaskDetailScreen = ({ route }) => {
           <View style={{ width: "50%" }}>
             <ItemSelector
               label={"Statut"}
-              selectedItem={editedTask.status ?? null}
+              selectedItem={editedTask.status?.code ?? null}
               onItemChange={(value) => handleSave("status", value)}
               items={status}
             />
@@ -139,15 +198,15 @@ const TaskDetailScreen = ({ route }) => {
         </View>
         <View style={styles.propertyItem}>
           <EditableNumber
-            value={editedTask.remainingTime ?? null}
-            onSave={(value) => handleSave("remainingTime", value)}
+            value={editedTask.remaining_time ?? null}
+            onSave={(value) => handleSave("remaining_time", value)}
             label="Restant"
           />
         </View>
         <ItemSelector
           label={"Importance"}
-          selectedItem={editedTask.importance ?? null}
-          onItemChange={(value) => handleSave("importance", value)}
+          selectedItem={editedTask.flag?.code ?? null}
+          onItemChange={(value) => handleSave("flag", value)}
           items={flags}
         />
       </View>
@@ -208,6 +267,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    maxWidth: "50%",
   },
 });
 

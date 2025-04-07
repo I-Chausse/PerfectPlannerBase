@@ -24,6 +24,16 @@ const UserSelectionScreen = ({ route }) => {
     "avatar3.png": require("../assets/avatar3.png"),
     "avatar4.png": require("../assets/avatar4.png"),
     "avatar5.png": require("../assets/avatar5.png"),
+    1: require("../assets/avatar1.png"),
+    2: require("../assets/avatar2.png"),
+    3: require("../assets/avatar3.png"),
+    4: require("../assets/avatar4.png"),
+    5: require("../assets/avatar5.png"),
+    6: require("../assets/avatar1.png"),
+    7: require("../assets/avatar2.png"),
+    8: require("../assets/avatar3.png"),
+    9: require("../assets/avatar4.png"),
+    "avatarUndefined": require("../assets/avatarUndefined.png"),
   };
 
   const handleUserSelect = (userId) => {
@@ -37,13 +47,13 @@ const UserSelectionScreen = ({ route }) => {
   const renderUserItem = ({ item }) => (
     <TouchableOpacity
       style={styles.userItem}
-      onPress={() => handleUserSelect(item.id)}
+      onPress={() => handleUserSelect(item)}
     >
-      <Image style={styles.avatar} source={avatarImages[item.avatar]} />
+      <Image style={styles.avatar} source={avatarImages[item.avatar_id]} />
       <Text>
-        {item.prenom} {item.nom}
+        {item.first_name} {item.name}
       </Text>
-      {item.id === task.userId && (
+      {item.id === task.user?.id && (
         <Ionicons
           name="checkmark-circle-outline"
           size={22}

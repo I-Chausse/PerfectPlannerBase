@@ -10,12 +10,12 @@ const ItemSelector = ({ label, selectedItem, onItemChange, items }) => {
       <Picker
         selectedValue={selectedItem}
         onValueChange={(itemValue) => {
-          const item = items.find((item) => item.id === itemValue);
+          const item = items.find((item) => item.code === itemValue);
           onItemChange(item);
         }}
       >
         {items.map((item) => (
-          <Picker.Item key={item.code} label={item.label} value={item.id} />
+          <Picker.Item key={item.code} label={item.label} value={item.code} />
         ))}
       </Picker>
     </View>

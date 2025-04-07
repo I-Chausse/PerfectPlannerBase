@@ -6,8 +6,8 @@ import UserTaskStats from "./UserTaskStats";
 import { taches } from "../data/taches";
 import { useAuth } from "../contexts/AuthContext";
 
-const UserTasksDisplay = ({ user }) => {
-  const userTasks = taches.filter((tache) => tache.userId === user.id);
+const UserTasksDisplay = ({ tasks }) => {
+  const userTasks = tasks;
   const { admin } = useAuth();
 
   return (
@@ -21,7 +21,7 @@ const UserTasksDisplay = ({ user }) => {
       <FlatList
         data={userTasks}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <TaskDisplay task={item}></TaskDisplay>}
+        renderItem={({ item }) => <TaskDisplay task={item} projet={{id: item.project_id}}></TaskDisplay>}
       ></FlatList>
     </View>
   );

@@ -1,21 +1,20 @@
 import { Picker } from "@react-native-picker/picker";
 import { View, StyleSheet } from "react-native";
 
-import { projets } from "../data/projets";
 import Colors from "../utils/styles/Colors";
 
-const ProjectSelector = ({ selectedProject, onProjectChange }) => {
+const ProjectSelector = ({ selectedProject, onProjectChange, projects }) => {
   return (
     <View style={styles.pickerView}>
       <Picker
         selectedValue={selectedProject.nom}
         onValueChange={(itemValue) => {
-          const project = projets.find((projet) => projet.nom === itemValue);
+          const project = projects.find((projet) => projet.id === itemValue);
           onProjectChange(project);
         }}
       >
-        {projets.map((projet) => (
-          <Picker.Item key={projet.nom} label={projet.nom} value={projet.nom} />
+        {projects.map((projet) => (
+          <Picker.Item key={projet.id} label={projet.name} value={projet.id} />
         ))}
       </Picker>
     </View>
