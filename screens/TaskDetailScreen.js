@@ -17,6 +17,7 @@ const TaskDetailScreen = ({ route }) => {
   const navigation = useNavigation();
   const initialTask = route.params?.task;
   const projet = route.params?.projet;
+  const creatingTask = route.params?.creatingTask || false;
   const { token } = useAuth();
   const [editedTask, setEditedTask] = useState(initialTask);
   const [originalTask, setOriginalTask] = useState(initialTask);
@@ -90,13 +91,23 @@ const TaskDetailScreen = ({ route }) => {
         const data = await response.json();
         setUsers(data.data);
       } catch (error) {
-        console.error("Error fetching flags:", error);
+        console.error("Error fetching users:", error);
       }
     };
 
     fetchStatus();
     fetchFlags();
     fetchUsers();
+    if (creatingTask) {
+      setEditedTask({
+        ...initialTask,
+        name: "", 
+        description: "",
+        remaining_time: null,
+        status: status.find((status) => status.code === "FAIRE"),
+        flag: flags.find((flag) => flag.code === "IMP"),
+      });
+    }
   }, [route.params.task]);
 
   const handleSave = (field, value) => {
@@ -110,8 +121,58 @@ const TaskDetailScreen = ({ route }) => {
     setPopupVisible(true);
   };
 
-  const saveChanges = () => {
-    const success = true;
+  const saveChanges = async () => {
+    let success = true;
+    try {
+      if (creatingTask) {
+        fetch(`http://${apiHost}:${apiPort}/api/tasks`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: editedTask.name,
+            description: editedTask.description,
+            remaining_time: editedTask.remaining_time,
+            project_id: projet.id,
+            //domain_item_status_id: editedTask.status.id,
+            //domain_item_flag_id: editedTask.flag.id,
+            //user_id: editedTask.user.id,
+          }),
+        })
+        .then((response) => {
+          // console.log("Response:", response);
+          console.log(response)
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+        });
+      } else {
+        fetch(`http://${apiHost}:${apiPort}/api/tasks/${editedTask.id}`, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(editedTask),
+        })
+        .then((response) => {
+          console.log("Response:", response);
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+        }
+        )
+      }
+    }
+    catch (error) {
+      console.error("Error saving task:", error);
+      console.log('ici');
+      success = false;
+    }
+    
     if (success) {
       setPopupMessage("Enregistrement réussi !");
       setIsSuccess(true);
@@ -190,7 +251,7 @@ const TaskDetailScreen = ({ route }) => {
           <View style={{ width: "50%" }}>
             <ItemSelector
               label={"Statut"}
-              selectedItem={editedTask.status?.code ?? null}
+              selectedItem={editedTask.status?.code ?? 'FAIRE'}
               onItemChange={(value) => handleSave("status", value)}
               items={status}
             />
@@ -205,7 +266,7 @@ const TaskDetailScreen = ({ route }) => {
         </View>
         <ItemSelector
           label={"Importance"}
-          selectedItem={editedTask.flag?.code ?? null}
+          selectedItem={editedTask.flag?.code ?? 'IMP'}
           onItemChange={(value) => handleSave("flag", value)}
           items={flags}
         />

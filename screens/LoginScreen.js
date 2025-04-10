@@ -50,7 +50,6 @@ const LoginScreen = () => {
       }),
     })
       .then((response) => {
-        console.log('Response:', response);
         if (!response.ok) {
           if (response.status === 401) {
             setPopupMessage("Les identifiants sont incorrects");

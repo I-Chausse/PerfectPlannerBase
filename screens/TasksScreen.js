@@ -49,10 +49,11 @@ const TasksScreen = () => {
       screen: "TaskDetailScreen",
       params: {
         task: {
-          nom: "",
-          label: "",
-          etat: { code: "A_FAIRE", label: "A Faire" },
         },
+        projet: {
+          id: selectedProject.id,
+        },
+        creatingTask: true,
       },
     });
   };
