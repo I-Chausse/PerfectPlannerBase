@@ -1,4 +1,4 @@
-const apiHost = "192.168.1.16";
-const apiPort = "80";
+const apiHost = "https://f594-195-176-241-239.ngrok-free.app";
+const apiPort = "443";
 
 export { apiHost, apiPort };

@@ -144,7 +144,7 @@ const TaskDetailScreen = ({ route }) => {
         })
         .then((response) => {
           // console.log("Response:", response);
-          console.log(response)
+          // console.log(response)
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
@@ -159,7 +159,7 @@ const TaskDetailScreen = ({ route }) => {
           body: JSON.stringify(editedTask),
         })
         .then((response) => {
-          console.log("Response:", response);
+          // console.log("Response:", response);
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
@@ -169,7 +169,7 @@ const TaskDetailScreen = ({ route }) => {
     }
     catch (error) {
       console.error("Error saving task:", error);
-      console.log('ici');
+      // console.log('ici');
       success = false;
     }
     
