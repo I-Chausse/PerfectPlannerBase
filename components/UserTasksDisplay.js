@@ -6,7 +6,7 @@ import UserTaskStats from "./UserTaskStats";
 import { taches } from "../data/taches";
 import { useAuth } from "../contexts/AuthContext";
 
-const UserTasksDisplay = ({ tasks }) => {
+const UserTasksDisplay = ({ tasks, onUpdate }) => {
   const userTasks = tasks;
   const { admin } = useAuth();
 
@@ -25,6 +25,7 @@ const UserTasksDisplay = ({ tasks }) => {
           <TaskDisplay
             task={item}
             projet={{ id: item.project_id }}
+            onUpdate={onUpdate}
           ></TaskDisplay>
         )}
       ></FlatList>

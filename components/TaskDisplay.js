@@ -7,12 +7,12 @@ import TaskLabel from "./TaskLabel";
 import { apiHost, apiPort } from "../utils/hosts";
 import buildAvatarUrl from "../utils/avatarUrlBuilder";
 
-const ProjectTasksDisplay = ({ task, projet }) => {
+const ProjectTasksDisplay = ({ task, projet, onUpdate }) => {
   const navigation = useNavigation();
   const navigateToTaskDetails = () => {
     navigation.navigate("TaskDetailNavigator", {
       screen: "TaskDetailScreen",
-      params: { task: task, projet: projet },
+      params: { task: task, projet: projet, onUpdate: onUpdate },
     });
   };
 

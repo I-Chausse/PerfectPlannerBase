@@ -9,3 +9,6 @@ export const getCallback = (key) => {
   delete callbacks[key];
   return callback;
 };
+export const printCallbacks = () => {
+  console.log(callbacks);
+}

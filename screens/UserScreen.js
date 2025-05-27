@@ -9,6 +9,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { apiHost, apiPort } from "../utils/hosts";
 
 import MainStyles from "../utils/styles/MainStyles";
+import { setCallback } from "../utils/CallbackManager";
 
 const UserScreen = () => {
   const route = useRoute();
@@ -18,6 +19,13 @@ const UserScreen = () => {
   const [userTasks, setUserTasks] = useState();
   const [assignees, setAssignees] = useState([]); 
   const [loading, setLoading] = useState(true);
+  const [refreshKey, setRefreshKey] = useState(0);
+  
+  const refreshTasks = () => {
+    setRefreshKey(refreshKey + 1)
+  };
+  const callbackId = "refreshTasksUser";
+
 
   const fetchUser = async () => {
     try {
@@ -89,8 +97,9 @@ const UserScreen = () => {
   }, []);
 
   useEffect(() => {
+    setCallback(callbackId, refreshTasks);
     fetchUserTasks();
-  }, [selectedUser])
+  }, [selectedUser, refreshKey])
 
   if (loading) {
     return (
@@ -108,7 +117,7 @@ const UserScreen = () => {
           users={assignees}
         />
       ) : null}
-      <UserTasksDisplay user={selectedUser} tasks={userTasks} />
+      <UserTasksDisplay user={selectedUser} tasks={userTasks} onUpdate={callbackId} />
     </View>
   );
 };

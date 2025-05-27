@@ -13,6 +13,7 @@ import { setCallback } from "../utils/CallbackManager";
 import { apiHost, apiPort } from "../utils/hosts";
 import { useAuth } from "../contexts/AuthContext";
 import buildAvatarUrl from "../utils/avatarUrlBuilder";
+import { getCallback } from "../utils/CallbackManager";
 
 const TaskDetailScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -110,6 +111,7 @@ const TaskDetailScreen = ({ route }) => {
   };
 
   const saveChanges = async () => {
+    const onUpdate = getCallback(route.params?.onUpdate);
     let success = true;
     let errorMsg = "";
     try {
@@ -127,19 +129,17 @@ const TaskDetailScreen = ({ route }) => {
             description: editedTask.description,
             remaining_time: editedTask.remaining_time,
             project_id: projet.id,
-            //domain_item_status_id: editedTask.status.id,
-            //domain_item_flag_id: editedTask.flag.id,
-            //user_id: editedTask.user.id,
+            domain_item_status_id: editedTask.status.id,
+            domain_item_flag_id: editedTask.flag.id,
+            user_id: editedTask?.user?.id
           }),
         });
       } else {
-        console.log(editedTask);
         let tempTask = { ...editedTask };
         if (editedTask.status.id) {
           tempTask.domain_item_status_id = editedTask.status.id;
         }
         if (editedTask.flag.id) {
-          console.log("flag edité", editedTask.flag);
           tempTask.domain_item_flag_id = editedTask.flag.id;
         }
         tempTask.user_id = tempTask?.user?.id;
@@ -167,6 +167,7 @@ const TaskDetailScreen = ({ route }) => {
     if (success) {
       setPopupMessage("Enregistrement réussi !");
       setIsSuccess(true);
+      onUpdate();
     } else {
       setPopupMessage("Échec de l'enregistrement : " + errorMsg);
       setIsSuccess(false);
@@ -241,7 +242,7 @@ const TaskDetailScreen = ({ route }) => {
               selectedItem={editedTask.status?.code ?? "FAIRE"}
               onItemChange={(value) => handleSave("status", value)}
               items={status}
-            />
+            />        console.log(editedTask);
           </View>
         </View>
         <View style={styles.propertyItem}>

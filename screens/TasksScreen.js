@@ -22,6 +22,7 @@ const TasksScreen = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const callbackId = "refreshTasks";
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -60,6 +61,7 @@ const TasksScreen = () => {
           id: selectedProject.id,
         },
         creatingTask: true,
+        onUpdate: callbackId
       },
     });
   };

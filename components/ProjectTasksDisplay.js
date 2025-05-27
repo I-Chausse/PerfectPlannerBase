@@ -10,14 +10,22 @@ import {
 import TaskDisplay from "../components/TaskDisplay";
 import { apiHost, apiPort } from "../utils/hosts";
 import { useAuth } from "../contexts/AuthContext";
+import { setCallback } from "../utils/CallbackManager";
 
 const ProjectTasksDisplay = ({ projet }) => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { token } = useAuth();
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const refreshTasks = () => {
+    setRefreshKey(refreshKey + 1)
+  };
+  const callbackId = "refreshTasks";
 
   useEffect(() => {
+    setCallback(callbackId, refreshTasks);
     const fetchTasks = async () => {
       try {
         const response = await fetch(
@@ -42,7 +50,8 @@ const ProjectTasksDisplay = ({ projet }) => {
     };
 
     fetchTasks();
-  }, [projet.id]);
+  }, [projet.id, refreshKey]);
+
 
   if (loading) {
     return (
@@ -65,7 +74,7 @@ const ProjectTasksDisplay = ({ projet }) => {
       <FlatList
         data={tasks}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <TaskDisplay task={item} projet={projet} />}
+        renderItem={({ item }) => <TaskDisplay task={item} projet={projet} onUpdate={callbackId}/>}
       />
     </View>
   );
