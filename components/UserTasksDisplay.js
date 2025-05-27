@@ -21,7 +21,12 @@ const UserTasksDisplay = ({ tasks }) => {
       <FlatList
         data={userTasks}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <TaskDisplay task={item} projet={{id: item.project_id}}></TaskDisplay>}
+        renderItem={({ item }) => (
+          <TaskDisplay
+            task={item}
+            projet={{ id: item.project_id }}
+          ></TaskDisplay>
+        )}
       ></FlatList>
     </View>
   );

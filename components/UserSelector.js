@@ -1,21 +1,21 @@
 import { Picker } from "@react-native-picker/picker";
 import { View, StyleSheet } from "react-native";
 
-import { users } from "../data/users";
+
 import Colors from "../utils/styles/Colors";
 
-const UserSelector = ({ selectedUser, onUserChange }) => {
+const UserSelector = ({ selectedUser, onUserChange, users }) => {
   return (
     <View style={styles.pickerView}>
       <Picker
-        selectedValue={selectedUser.id}
+        selectedValue={selectedUser?.id}
         onValueChange={(itemValue) => {
-          const user = users.find((user) => user.id === itemValue);
+          const user = users?.find((user) => user.id === itemValue);
           onUserChange(user);
         }}
       >
-        {users.map((user) => (
-          <Picker.Item key={user.id} label={user.nom} value={user.id} />
+        {Array.isArray(users) && users.map((user) => (
+          <Picker.Item key={user.id} label={user.name} value={user.id} />
         ))}
       </Picker>
     </View>

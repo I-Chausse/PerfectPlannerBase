@@ -4,6 +4,8 @@ import { useNavigation } from "@react-navigation/native";
 
 import Colors from "../utils/styles/Colors";
 import TaskLabel from "./TaskLabel";
+import { apiHost, apiPort } from "../utils/hosts";
+import buildAvatarUrl from "../utils/avatarUrlBuilder";
 
 const ProjectTasksDisplay = ({ task, projet }) => {
   const navigation = useNavigation();
@@ -12,23 +14,6 @@ const ProjectTasksDisplay = ({ task, projet }) => {
       screen: "TaskDetailScreen",
       params: { task: task, projet: projet },
     });
-  };
-
-  const avatarImages = {
-    "avatar1.png": require("../assets/avatar1.png"),
-    "avatar2.png": require("../assets/avatar2.png"),
-    "avatar3.png": require("../assets/avatar3.png"),
-    "avatar4.png": require("../assets/avatar4.png"),
-    "avatar5.png": require("../assets/avatar5.png"),
-    1: require("../assets/avatar1.png"),
-    2: require("../assets/avatar2.png"),
-    3: require("../assets/avatar3.png"),
-    4: require("../assets/avatar4.png"),
-    5: require("../assets/avatar5.png"),
-    6: require("../assets/avatar1.png"),
-    7: require("../assets/avatar2.png"),
-    8: require("../assets/avatar3.png"),
-    9: require("../assets/avatar4.png"),
   };
 
   return (
@@ -60,9 +45,7 @@ const ProjectTasksDisplay = ({ task, projet }) => {
         <View style={[styles.labelTopRight]}>
           <Image
             style={styles.avatar}
-            source={
-              avatarImages[task.user.avatar_id]
-            }
+            source={{uri: buildAvatarUrl(task.user)}}
           />
         </View>
       )}

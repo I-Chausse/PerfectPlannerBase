@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, FlatList, ActivityIndicator, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+  Text,
+} from "react-native";
 
 import TaskDisplay from "../components/TaskDisplay";
 import { apiHost, apiPort } from "../utils/hosts";
@@ -14,16 +20,17 @@ const ProjectTasksDisplay = ({ projet }) => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await fetch(`http://${apiHost}:${apiPort}/api/projects/${projet.id}/tasks`,
+        const response = await fetch(
+          `https://${apiHost}:${apiPort}/api/projects/${projet.id}/tasks`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
               Accept: "application/json",
             },
-          }
+          },
         );
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const data = await response.json();
         setTasks(data.data);

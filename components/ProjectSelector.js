@@ -7,14 +7,14 @@ const ProjectSelector = ({ selectedProject, onProjectChange, projects }) => {
   return (
     <View style={styles.pickerView}>
       <Picker
-        selectedValue={selectedProject.nom}
+        selectedValue={selectedProject.project_name}
         onValueChange={(itemValue) => {
           const project = projects.find((projet) => projet.id === itemValue);
           onProjectChange(project);
         }}
       >
         {projects.map((projet) => (
-          <Picker.Item key={projet.id} label={projet.name} value={projet.id} />
+          <Picker.Item key={projet.id} label={projet.project_name} value={projet.id} />
         ))}
       </Picker>
     </View>

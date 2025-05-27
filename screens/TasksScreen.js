@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, TouchableOpacity, ActivityIndicator, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+  Text,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
@@ -20,16 +26,17 @@ const TasksScreen = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch(`http://${apiHost}:${apiPort}/api/my-projects`,
+        const response = await fetch(
+          `https://${apiHost}:${apiPort}/api/my-projects`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
               Accept: "application/json",
             },
-          }
+          },
         );
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const data = await response.json();
         setProjects(data.data);
@@ -48,8 +55,7 @@ const TasksScreen = () => {
     navigation.navigate("TaskDetailNavigator", {
       screen: "TaskDetailScreen",
       params: {
-        task: {
-        },
+        task: {},
         projet: {
           id: selectedProject.id,
         },
@@ -82,7 +88,10 @@ const TasksScreen = () => {
         projects={projects}
       />
       <ProjectTasksDisplay projet={selectedProject} />
-      <TouchableOpacity style={[MainStyles.mainBtn, styles.button]} onPress={navigateToNewTask}>
+      <TouchableOpacity
+        style={[MainStyles.mainBtn, styles.button]}
+        onPress={navigateToNewTask}
+      >
         <Ionicons name="add-outline" size={22} style={styles.activeIcon} />
       </TouchableOpacity>
     </View>

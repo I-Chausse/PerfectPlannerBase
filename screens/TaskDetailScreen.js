@@ -12,6 +12,7 @@ import Colors from "../utils/styles/Colors";
 import { setCallback } from "../utils/CallbackManager";
 import { apiHost, apiPort } from "../utils/hosts";
 import { useAuth } from "../contexts/AuthContext";
+import buildAvatarUrl from "../utils/avatarUrlBuilder";
 
 const TaskDetailScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -28,33 +29,18 @@ const TaskDetailScreen = ({ route }) => {
   const [flags, setFlags] = useState([]);
   const [users, setUsers] = useState([]);
 
-  const avatarImages = {
-    "avatar1.png": require("../assets/avatar1.png"),
-    "avatar2.png": require("../assets/avatar2.png"),
-    "avatar3.png": require("../assets/avatar3.png"),
-    "avatar4.png": require("../assets/avatar4.png"),
-    "avatar5.png": require("../assets/avatar5.png"),
-    1: require("../assets/avatar1.png"),
-    2: require("../assets/avatar2.png"),
-    3: require("../assets/avatar3.png"),
-    4: require("../assets/avatar4.png"),
-    5: require("../assets/avatar5.png"),
-    6: require("../assets/avatar1.png"),
-    7: require("../assets/avatar2.png"),
-    8: require("../assets/avatar3.png"),
-    9: require("../assets/avatar4.png"),
-    "avatarUndefined": require("../assets/avatarUndefined.png"),
-  };
-
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const response = await fetch(`http://${apiHost}:${apiPort}/api/get-items/status`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
+        const response = await fetch(
+          `https://${apiHost}:${apiPort}/api/get-items/status`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
           },
-        });
+        );
         const data = await response.json();
         setStatus(data.data);
       } catch (error) {
@@ -64,13 +50,14 @@ const TaskDetailScreen = ({ route }) => {
 
     const fetchFlags = async () => {
       try {
-        const response = await fetch(`http://${apiHost}:${apiPort}/api/get-items/flags`,
+        const response = await fetch(
+          `https://${apiHost}:${apiPort}/api/get-items/flags`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
               Accept: "application/json",
             },
-          }
+          },
         );
         const data = await response.json();
         setFlags(data.data);
@@ -80,13 +67,14 @@ const TaskDetailScreen = ({ route }) => {
     };
     const fetchUsers = async () => {
       try {
-        const response = await fetch(`http://${apiHost}:${apiPort}/api/projects/${projet.id}/assignables`,
+        const response = await fetch(
+          `https://${apiHost}:${apiPort}/api/projects/${projet.id}/assignables`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
               Accept: "application/json",
             },
-          }
+          },
         );
         const data = await response.json();
         setUsers(data.data);
@@ -101,7 +89,7 @@ const TaskDetailScreen = ({ route }) => {
     if (creatingTask) {
       setEditedTask({
         ...initialTask,
-        name: "", 
+        name: "",
         description: "",
         remaining_time: null,
         status: status.find((status) => status.code === "FAIRE"),
@@ -123,9 +111,11 @@ const TaskDetailScreen = ({ route }) => {
 
   const saveChanges = async () => {
     let success = true;
+    let errorMsg = "";
     try {
+      let response;
       if (creatingTask) {
-        fetch(`http://${apiHost}:${apiPort}/api/tasks`, {
+        response = await fetch(`https://${apiHost}/api/tasks`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -141,43 +131,44 @@ const TaskDetailScreen = ({ route }) => {
             //domain_item_flag_id: editedTask.flag.id,
             //user_id: editedTask.user.id,
           }),
-        })
-        .then((response) => {
-          // console.log("Response:", response);
-          // console.log(response)
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
         });
       } else {
-        fetch(`http://${apiHost}:${apiPort}/api/tasks/${editedTask.id}`, {
+        console.log(editedTask);
+        let tempTask = { ...editedTask };
+        if (editedTask.status.id) {
+          tempTask.domain_item_status_id = editedTask.status.id;
+        }
+        if (editedTask.flag.id) {
+          console.log("flag edité", editedTask.flag);
+          tempTask.domain_item_flag_id = editedTask.flag.id;
+        }
+        tempTask.user_id = tempTask?.user?.id;
+        console.log(tempTask);
+        response = await fetch(`https://${apiHost}/api/tasks/${editedTask.id}`, {
           method: "PUT",
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(editedTask),
-        })
-        .then((response) => {
-          // console.log("Response:", response);
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-        }
-        )
+          body: JSON.stringify(tempTask),
+        });
       }
-    }
-    catch (error) {
+      if (!response.ok) {
+        let data = await response.json().catch(() => ({}));
+        errorMsg = data.message || data.detail || "Erreur inconnue du serveur.";
+        throw new Error(errorMsg);
+      }
+    } catch (error) {
       console.error("Error saving task:", error);
-      // console.log('ici');
       success = false;
+      errorMsg = errorMsg || error.message;
     }
-    
+
     if (success) {
       setPopupMessage("Enregistrement réussi !");
       setIsSuccess(true);
     } else {
-      setPopupMessage("Échec de l'enregistrement.");
+      setPopupMessage("Échec de l'enregistrement : " + errorMsg);
       setIsSuccess(false);
     }
     setPopupVisible(true);
@@ -233,11 +224,7 @@ const TaskDetailScreen = ({ route }) => {
             <View style={styles.avatarSecondContainer}>
               <Image
                 style={MainStyles.avatar}
-                source={
-                  avatarImages[
-                    editedTask.user?.avatar_id ?? "avatarUndefined"
-                  ]
-                }
+                source={{uri: buildAvatarUrl(editedTask.user)}}
               />
               {editedTask.user && (
                 <Text style={MainStyles.mx10}>
@@ -251,7 +238,7 @@ const TaskDetailScreen = ({ route }) => {
           <View style={{ width: "50%" }}>
             <ItemSelector
               label={"Statut"}
-              selectedItem={editedTask.status?.code ?? 'FAIRE'}
+              selectedItem={editedTask.status?.code ?? "FAIRE"}
               onItemChange={(value) => handleSave("status", value)}
               items={status}
             />
@@ -266,7 +253,7 @@ const TaskDetailScreen = ({ route }) => {
         </View>
         <ItemSelector
           label={"Importance"}
-          selectedItem={editedTask.flag?.code ?? 'IMP'}
+          selectedItem={editedTask.flag?.code ?? "IMP"}
           onItemChange={(value) => handleSave("flag", value)}
           items={flags}
         />

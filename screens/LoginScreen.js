@@ -29,20 +29,19 @@ const LoginScreen = () => {
     } else {
       try {
         let user = await login_user(userName, userPass);
-        login(user.token, user.isAdmin);
+        login(user.token, user.role == 'admin' || user.role == 'project_admin');
+      } catch (error) {
+
       }
-      catch (error) {
-      }
-      
     }
   };
 
   const login_user = async (username, password) => {
-    let user = fetch(`http://${apiHost}:${apiPort}/api/login`, {
-      method: 'POST',
+    let user = fetch(`https://${apiHost}/api/login`, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify({
         email: username,
@@ -56,8 +55,7 @@ const LoginScreen = () => {
             setIsSuccess(false);
             setPopupVisible(true);
             throw new Error("Unauthorized");
-          }
-          else {
+          } else {
             setPopupMessage("Une erreur est survenue");
             setIsSuccess(false);
             setPopupVisible(true);
@@ -71,10 +69,9 @@ const LoginScreen = () => {
       })
       .catch((error) => {
         throw error;
-    });
+      });
     return user;
-
-  }
+  };
 
   return (
     <View style={MainStyles.container}>
