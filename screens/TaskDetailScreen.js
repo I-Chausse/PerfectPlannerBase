@@ -87,17 +87,20 @@ const TaskDetailScreen = ({ route }) => {
     fetchStatus();
     fetchFlags();
     fetchUsers();
-    if (creatingTask) {
-      setEditedTask({
-        ...initialTask,
-        name: "",
-        description: "",
-        remaining_time: null,
-        status: status.find((status) => status.code === "FAIRE"),
-        flag: flags.find((flag) => flag.code === "IMP"),
-      });
-    }
   }, [route.params.task]);
+
+  useEffect(() => {
+  if (creatingTask && status.length > 0 && flags.length > 0) {
+    setEditedTask({
+      ...initialTask,
+      name: "",
+      description: "",
+      remaining_time: null,
+      status: status.find((s) => s.code === "FAIRE"),
+      flag: flags.find((f) => f.code === "IMP"),
+    });
+  }
+}, [creatingTask, status, flags]);
 
   const handleSave = (field, value) => {
     setEditedTask((prevTask) => ({ ...prevTask, [field]: value }));
@@ -242,7 +245,7 @@ const TaskDetailScreen = ({ route }) => {
               selectedItem={editedTask.status?.code ?? "FAIRE"}
               onItemChange={(value) => handleSave("status", value)}
               items={status}
-            />        console.log(editedTask);
+            />
           </View>
         </View>
         <View style={styles.propertyItem}>
