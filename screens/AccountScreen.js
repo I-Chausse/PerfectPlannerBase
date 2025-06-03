@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
-import { users } from "../data/users";
+import { View, Text, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import EditableText from "../components/editableFields/EditableText";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,33 +9,85 @@ import MainStyles from "../utils/styles/MainStyles";
 import Colors from "../utils/styles/Colors";
 import { setCallback } from "../utils/CallbackManager";
 import Popup from "../components/ConfirmationPopUp";
+import { apiHost, apiPort } from "../utils/hosts";
 
 const AccountScreen = () => {
   const navigation = useNavigation();
-  const { admin } = useAuth();
-  const initialUser = admin ? users[2] : users[0];
+  const { admin, token } = useAuth();
+  const initialUser = {};
   const [editedUser, setEditedUser] = useState(initialUser);
   const [originalUser, setOriginalUser] = useState(initialUser);
   const [popupVisible, setPopupVisible] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(true);
+  const [loading, setLoading] = useState(true);
+
+
+  const fetchUser = async () => {
+    setLoading(true);
+    try {
+      let response = await fetch(
+        `https://${apiHost}:${apiPort}/api/me/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        },
+      );
+      if (!response.ok) {
+        console.error(response);
+        throw new Error("Network response was not ok");
+      }
+      let data = await response.json();
+      setOriginalUser(data.data[0]);
+      setEditedUser(data.data[0]);
+      console.log(data.data[0]);
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch user", error);
+    }
+  };
 
   useEffect(() => {
-    setOriginalUser(initialUser);
-    setEditedUser(initialUser);
-  }, [users[0]]);
+    fetchUser();
+  }, []);
 
   const cancelChanges = () => {
     setEditedUser(originalUser);
   };
 
-  const saveChanges = () => {
+  const saveChanges = async () => {
     const success = true;
+    let response;
+    let errorMsg;
+    try {
+      response = await fetch(`https://${apiHost}/api/update-me`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(editedUser),
+      });
+      if (!response.ok) {
+        let data = await response.json().catch(() => ({}));
+        errorMsg = data.message || data.detail || "Erreur inconnue du serveur.";
+        throw new Error(errorMsg);
+      }
+      fetchUser();
+    }
+    catch (error) {
+      console.error("Error saving task:", error);
+      success = false;
+      errorMsg = errorMsg || error.message;
+    }
     if (success) {
       setPopupMessage("Enregistrement réussi !");
       setIsSuccess(true);
     } else {
-      setPopupMessage("Échec de l'enregistrement.");
+      setPopupMessage("Échec de l'enregistrement : " + errorMsg);
       setIsSuccess(false);
     }
     setPopupVisible(true);
@@ -81,9 +132,40 @@ const AccountScreen = () => {
 
   const { logout } = useAuth();
 
+  const handleLogout = async () => {
+    let response;
+    try {
+      response = await fetch(`https://${apiHost}/api/logout`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+      if (!response.ok) {
+        let data = await response.json().catch(() => ({}));
+        errorMsg = data.message || data.detail || "Erreur inconnue du serveur.";
+        throw new Error(errorMsg);
+      }
+      logout();
+      
+    }
+    catch (error) {
+       console.error("Error saving task:", error);
+    }
+  }
+
   const handlePopupClose = () => {
     setPopupVisible(false);
   };
+  if (loading) {
+    return (
+      <View style={[MainStyles.container, styles.container]}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <View style={MainStyles.container}>
@@ -97,7 +179,7 @@ const AccountScreen = () => {
         <View style={styles.topContainer}>
           <Text style={styles.customText}>
             <Text style={MainStyles.bold}>Compte :</Text>{" "}
-            {editedUser.nomUtilisateur}{" "}
+            {editedUser.user_name}{" "}
           </Text>
           <TouchableOpacity
             onPress={navigateToAvatarSelection}
@@ -113,15 +195,15 @@ const AccountScreen = () => {
 
         <View style={styles.input}>
           <EditableText
-            value={editedUser.nom}
-            onSave={(value) => handleSave("nom", value)}
+            value={editedUser.name}
+            onSave={(value) => handleSave("name", value)}
             label="Nom"
           />
         </View>
         <View style={styles.input}>
           <EditableText
-            value={editedUser.prenom}
-            onSave={(value) => handleSave("prenom", value)}
+            value={editedUser.first_name}
+            onSave={(value) => handleSave("first_name", value)}
             label="Prénom"
           />
         </View>
@@ -142,7 +224,7 @@ const AccountScreen = () => {
           <Text style={MainStyles.secBtnText}>Mot de passe</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={logout}
+          onPress={handleLogout}
           style={[MainStyles.secBtn, styles.button]}
         >
           <Text style={MainStyles.secBtnText}>Deconnexion</Text>
