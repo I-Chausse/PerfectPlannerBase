@@ -11,6 +11,8 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import Popup from "../components/ConfirmationPopUp";
 import MainStyles from "../utils/styles/MainStyles";
 import { getCallback } from "../utils/CallbackManager";
+import { apiHost, apiPort } from "../utils/hosts";
+import { useAuth } from "../contexts/AuthContext";
 
 const ChangePasswordScreen = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -22,14 +24,15 @@ const ChangePasswordScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { callbackId } = route.params;
+  const { admin, token } = useAuth();
 
-  const handleChangePassword = () => {
+  const handleChangePassword =  async() => {
     if (
       newPassword !== confirmPassword ||
       newPassword === "" ||
-      confirmPassword === ""
+      currentPassword === ""
     ) {
-      if (newPassword === "" || confirmPassword === "") {
+      if (newPassword === "" || currentPassword === "") {
         setPopupMessage("Veuillez remplir tous les champs.");
       } else {
         setPopupMessage("Les mots de passe ne correspondent pas.");
@@ -39,10 +42,31 @@ const ChangePasswordScreen = () => {
       return;
     } else {
       const callback = getCallback(callbackId);
-      if (callback) {
-        callback("Mot de passe changé !", true);
+      try {
+        let response = await fetch(`https://${apiHost}/api/update-my-password`, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({old_password: currentPassword, password: newPassword, password_confirmation: confirmPassword}),
+        });
+        if (!response.ok) {
+          let data = await response.json().catch(() => ({}));
+          errorMsg = data.message || data.detail || "Erreur inconnue du serveur.";
+          throw new Error(errorMsg);
+        }
+        if (callback) {
+          callback("Mot de passe changé !", true);
+        }
+        navigation.goBack();
       }
-      navigation.goBack();
+      catch (error) {
+        console.error("Error saving task:", error);
+        success = false;
+        errorMsg = errorMsg || error.message;
+      }
     }
   };
 
