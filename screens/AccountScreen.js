@@ -10,6 +10,7 @@ import Colors from "../utils/styles/Colors";
 import { setCallback } from "../utils/CallbackManager";
 import Popup from "../components/ConfirmationPopUp";
 import { apiHost, apiPort } from "../utils/hosts";
+import { buildAvatarUrl } from "../utils/avatarUrlBuilder";
 
 const AccountScreen = () => {
   const navigation = useNavigation();
@@ -61,6 +62,10 @@ const AccountScreen = () => {
     const success = true;
     let response;
     let errorMsg;
+    let tempUser = editedUser;
+    if (editedUser?.avatar?.id && (!originalUser?.avatar?.id || editedUser.avatar.id !== originalUser.avatar.id)) {
+      tempUser.avatar_id = editedUser.avatar.id;
+    }
     try {
       response = await fetch(`https://${apiHost}/api/update-me`, {
         method: "PUT",
@@ -69,7 +74,7 @@ const AccountScreen = () => {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify(editedUser),
+        body: JSON.stringify(tempUser),
       });
       if (!response.ok) {
         let data = await response.json().catch(() => ({}));
@@ -187,7 +192,7 @@ const AccountScreen = () => {
           >
             <Image
               style={styles.avatar}
-              source={avatarImages[editedUser.avatar]}
+              source={{uri: buildAvatarUrl(editedUser)}}
             />
             <Ionicons name="create-outline" size={22} />
           </TouchableOpacity>

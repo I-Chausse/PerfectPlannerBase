@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import Colors from "../utils/styles/Colors";
 import TaskLabel from "./TaskLabel";
 import { apiHost, apiPort } from "../utils/hosts";
-import buildAvatarUrl from "../utils/avatarUrlBuilder";
+import { buildAvatarUrl } from "../utils/avatarUrlBuilder";
 
 const ProjectTasksDisplay = ({ task, projet, onUpdate }) => {
   const navigation = useNavigation();

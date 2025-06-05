@@ -12,7 +12,7 @@ import { apiHost, apiPort } from "../utils/hosts";
 import { useAuth } from "../contexts/AuthContext";
 import { setCallback } from "../utils/CallbackManager";
 
-const ProjectTasksDisplay = ({ projet }) => {
+const ProjectTasksDisplay = ({ projet, search }) => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,7 +29,7 @@ const ProjectTasksDisplay = ({ projet }) => {
     const fetchTasks = async () => {
       try {
         const response = await fetch(
-          `https://${apiHost}:${apiPort}/api/projects/${projet.id}/tasks`,
+          `https://${apiHost}:${apiPort}/api/projects/${projet.id}/tasks${search ?"?search=" + search : ""}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -41,6 +41,7 @@ const ProjectTasksDisplay = ({ projet }) => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
+        console.log("updated");
         setTasks(data.data);
       } catch (error) {
         setError(error.message);
@@ -50,7 +51,7 @@ const ProjectTasksDisplay = ({ projet }) => {
     };
 
     fetchTasks();
-  }, [projet.id, refreshKey]);
+  }, [projet.id, refreshKey, search]);
 
 
   if (loading) {

@@ -12,7 +12,7 @@ import Colors from "../utils/styles/Colors";
 import { setCallback } from "../utils/CallbackManager";
 import { apiHost, apiPort } from "../utils/hosts";
 import { useAuth } from "../contexts/AuthContext";
-import buildAvatarUrl from "../utils/avatarUrlBuilder";
+import { buildAvatarUrl } from "../utils/avatarUrlBuilder";
 import { getCallback } from "../utils/CallbackManager";
 
 const TaskDetailScreen = ({ route }) => {

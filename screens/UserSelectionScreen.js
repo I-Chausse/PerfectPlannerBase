@@ -13,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import MainStyles from "../utils/styles/MainStyles";
 import Colors from "../utils/styles/Colors";
 import { getCallback } from "../utils/CallbackManager";
-import buildAvatarUrl from "../utils/avatarUrlBuilder";
+import { buildAvatarUrl } from "../utils/avatarUrlBuilder";
 
 const UserSelectionScreen = ({ route }) => {
   const { users, task, callbackId } = route.params;

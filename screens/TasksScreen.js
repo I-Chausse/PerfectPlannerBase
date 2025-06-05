@@ -14,6 +14,8 @@ import ProjectSelector from "../components/ProjectSelector";
 import MainStyles from "../utils/styles/MainStyles";
 import { apiHost, apiPort } from "../utils/hosts";
 import { useAuth } from "../contexts/AuthContext";
+import SearchBar from "../components/SearchBar";
+import { setCallback } from "../utils/CallbackManager";
 
 const TasksScreen = () => {
   const { token } = useAuth();
@@ -22,7 +24,9 @@ const TasksScreen = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [search, setSearch] = useState('');
   const callbackId = "refreshTasks";
+  setCallback("setSearch", setSearch);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -89,7 +93,8 @@ const TasksScreen = () => {
         onProjectChange={setSelectedProject}
         projects={projects}
       />
-      <ProjectTasksDisplay projet={selectedProject} />
+      <SearchBar callbackId = {"setSearch"}/>
+      <ProjectTasksDisplay projet={selectedProject} search={search} />
       <TouchableOpacity
         style={[MainStyles.mainBtn, styles.button]}
         onPress={navigateToNewTask}

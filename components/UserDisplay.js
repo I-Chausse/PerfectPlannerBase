@@ -2,7 +2,7 @@ import React from "react";
 import { Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 
 import Colors from "../utils/styles/Colors";
-import buildAvatarUrl from "../utils/avatarUrlBuilder";
+import { buildAvatarUrl } from "../utils/avatarUrlBuilder";
 
 const UserDisplay = ({ user }) => {
   return (

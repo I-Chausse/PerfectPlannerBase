@@ -1,6 +1,6 @@
 import { apiHost, apiPort } from './hosts';
 
-const buildAvatarUrl = (user) => {
+export const buildAvatarUrl = (user) => {
     if (user?.avatar?.link!= null) {
         return `https://${apiHost}${user.avatar.link}`;
     } else {
@@ -8,4 +8,10 @@ const buildAvatarUrl = (user) => {
     }
 }
 
-export default buildAvatarUrl;
+export const buildAvatarUrlFromList = (avatar) => {
+    if (avatar?.link!= null) {
+        return `https://${apiHost}${avatar.link}`;
+    } else {
+        return `https://${apiHost}/avatars/avatarUndefined.png`; // Fallback URL
+    }
+}
