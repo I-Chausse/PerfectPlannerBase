@@ -59,10 +59,29 @@ const AccountScreen = () => {
   };
 
   const saveChanges = async () => {
-    const success = true;
+    let success = true;
     let response;
     let errorMsg;
-    let tempUser = editedUser;
+    console.log("ici");
+    if (editedUser.name == "") {
+      success = false;
+      errorMsg = "Le nom est requis"
+    }
+    else if (editedUser.first_name == "") {
+      success = false;
+      errorMsg = "Le prénom est requis";
+    }
+    else if (editedUser.email == "") {
+      success = false;
+      errorMsg = "L'email est requis";
+    }
+    if (!success) {
+      setPopupMessage(errorMsg);
+      setIsSuccess(false);
+      setPopupVisible(true);
+    }
+    else {
+    let tempUser = { ...editedUser };
     if (editedUser?.avatar?.id && (!originalUser?.avatar?.id || editedUser.avatar.id !== originalUser.avatar.id)) {
       tempUser.avatar_id = editedUser.avatar.id;
     }
@@ -96,6 +115,7 @@ const AccountScreen = () => {
       setIsSuccess(false);
     }
     setPopupVisible(true);
+    }
   };
 
   const openPopup = (message, success) => {

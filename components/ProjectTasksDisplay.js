@@ -41,7 +41,6 @@ const ProjectTasksDisplay = ({ projet, search }) => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        console.log("updated");
         setTasks(data.data);
       } catch (error) {
         setError(error.message);

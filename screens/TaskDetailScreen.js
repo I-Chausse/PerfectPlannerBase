@@ -117,6 +117,20 @@ const TaskDetailScreen = ({ route }) => {
     const onUpdate = getCallback(route.params?.onUpdate);
     let success = true;
     let errorMsg = "";
+    if (!editedTask.name ||  editedTask.name == '') {
+      success = false;
+      errorMsg = "Le champs nom est requis";
+    }
+    if (!editedTask.name ||  editedTask.name == '') {
+      success = false;
+      errorMsg = "Le champs nom est requis";
+    }
+    if (!success) {
+      setPopupMessage(errorMsg);
+      setIsSuccess(false);
+      setPopupVisible(true);
+      return;
+    }
     try {
       let response;
       if (creatingTask) {
