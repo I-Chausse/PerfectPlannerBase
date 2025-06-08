@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -14,6 +14,10 @@ import Colors from "../../utils/styles/Colors";
 const EditableField = ({ value, onSave, label, multiLine }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [localValue, setLocalValue] = useState(value);
+
+  useEffect(() => {
+    setLocalValue(value)
+  }, [value]);
 
   const handleSave = () => {
     onSave(localValue);

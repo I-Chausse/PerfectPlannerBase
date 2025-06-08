@@ -2,60 +2,50 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { users } from "../data/users";
 import Colors from "../utils/styles/Colors";
-import { flags } from "../data/flags";
 import TaskLabel from "./TaskLabel";
+import { apiHost, apiPort } from "../utils/hosts";
+import { buildAvatarUrl } from "../utils/avatarUrlBuilder";
 
-const ProjectTasksDisplay = ({ task }) => {
+const ProjectTasksDisplay = ({ task, projet, onUpdate }) => {
   const navigation = useNavigation();
   const navigateToTaskDetails = () => {
     navigation.navigate("TaskDetailNavigator", {
       screen: "TaskDetailScreen",
-      params: { task: task },
+      params: { task: task, projet: projet, onUpdate: onUpdate },
     });
-  };
-
-  const avatarImages = {
-    "avatar1.png": require("../assets/avatar1.png"),
-    "avatar2.png": require("../assets/avatar2.png"),
-    "avatar3.png": require("../assets/avatar3.png"),
-    "avatar4.png": require("../assets/avatar4.png"),
-    "avatar5.png": require("../assets/avatar5.png"),
   };
 
   return (
     <TouchableOpacity style={styles.task} onPress={navigateToTaskDetails}>
-      <Text style={styles.cardTitle}>{task.nom}</Text>
+      <Text style={styles.cardTitle}>{task.name}</Text>
       <Text numberOfLines={3}>{task.description}</Text>
       <View style={[styles.labelBottomRight, styles.label]}>
         <TaskLabel
-          label={task.etat.label}
-          color={Colors.status[task.etat.code]}
+          label={task.status.label}
+          color={Colors.status[task.status.code]}
         />
       </View>
-      {task.remainingTime != null && (
+      {task.remaining_time != null && (
         <View
           style={[styles.labelBottomCenter, styles.label, styles.timeLabel]}
         >
-          <Text> {task.remainingTime} </Text>
+          <Text> {task.remaining_time} </Text>
         </View>
       )}
-      {task.importance != null && (
+      {task.flag != null && (
         <View style={[styles.labelBottomLeft, styles.label]}>
           <TaskLabel
-            label={flags.find((flag) => flag.code === task.importance)?.label}
-            color={Colors.flags[task.importance]}
+            label={task.flag.label}
+            color={Colors.flags[task.flag.code]}
           />
         </View>
       )}
-      {task.userId != null && (
+      {task.user != null && (
         <View style={[styles.labelTopRight]}>
           <Image
             style={styles.avatar}
-            source={
-              avatarImages[users.find((user) => user.id === task.userId).avatar]
-            }
+            source={{uri: buildAvatarUrl(task.user)}}
           />
         </View>
       )}

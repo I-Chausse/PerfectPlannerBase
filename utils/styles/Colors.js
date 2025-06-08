@@ -22,9 +22,9 @@ const colors = {
   warningYellow: "#FFC722",
 
   status: {
-    A_FAIRE: "#EEE",
-    EN_COURS: "#aeb6bf",
-    EN_REVUE: "#D6F49D",
+    FAIRE: "#EEE",
+    COURS: "#aeb6bf",
+    REVUE: "#D6F49D",
     TERMINE: "#00d062",
     BLOQUE: "#ffc0cb",
   },

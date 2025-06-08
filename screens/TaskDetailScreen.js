@@ -6,55 +6,187 @@ import { Ionicons } from "@expo/vector-icons";
 import EditableText from "../components/editableFields/EditableText";
 import EditableNumber from "../components/editableFields/EditableNumber";
 import ItemSelector from "../components/ItemSelector";
-import { users } from "../data/users";
-import { flags } from "../data/flags";
 import Popup from "../components/ConfirmationPopUp";
 import MainStyles from "../utils/styles/MainStyles";
 import Colors from "../utils/styles/Colors";
 import { setCallback } from "../utils/CallbackManager";
-import { status } from "../data/status";
+import { apiHost, apiPort } from "../utils/hosts";
+import { useAuth } from "../contexts/AuthContext";
+import { buildAvatarUrl } from "../utils/avatarUrlBuilder";
+import { getCallback } from "../utils/CallbackManager";
 
 const TaskDetailScreen = ({ route }) => {
   const navigation = useNavigation();
   const initialTask = route.params?.task;
+  const projet = route.params?.projet;
+  const creatingTask = route.params?.creatingTask || false;
+  const { token } = useAuth();
   const [editedTask, setEditedTask] = useState(initialTask);
   const [originalTask, setOriginalTask] = useState(initialTask);
   const [popupVisible, setPopupVisible] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(true);
-
-  const avatarImages = {
-    "avatar1.png": require("../assets/avatar1.png"),
-    "avatar2.png": require("../assets/avatar2.png"),
-    "avatar3.png": require("../assets/avatar3.png"),
-    "avatar4.png": require("../assets/avatar4.png"),
-    "avatar5.png": require("../assets/avatar5.png"),
-    "avatarUndefined": require("../assets/avatarUndefined.png"),
-  };
+  const [status, setStatus] = useState([]);
+  const [flags, setFlags] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    setOriginalTask(initialTask);
-    setEditedTask(initialTask);
+    const fetchStatus = async () => {
+      try {
+        const response = await fetch(
+          `https://${apiHost}:${apiPort}/api/get-items/status`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
+          },
+        );
+        const data = await response.json();
+        setStatus(data.data);
+      } catch (error) {
+        console.error("Error fetching status:", error);
+      }
+    };
+
+    const fetchFlags = async () => {
+      try {
+        const response = await fetch(
+          `https://${apiHost}:${apiPort}/api/get-items/flags`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
+          },
+        );
+        const data = await response.json();
+        setFlags(data.data);
+      } catch (error) {
+        console.error("Error fetching flags:", error);
+      }
+    };
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(
+          `https://${apiHost}:${apiPort}/api/projects/${projet.id}/assignables`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
+          },
+        );
+        const data = await response.json();
+        setUsers(data.data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchStatus();
+    fetchFlags();
+    fetchUsers();
   }, [route.params.task]);
+
+  useEffect(() => {
+  if (creatingTask && status.length > 0 && flags.length > 0) {
+    setEditedTask({
+      ...initialTask,
+      name: "",
+      description: "",
+      remaining_time: null,
+      status: status.find((s) => s.code === "FAIRE"),
+      flag: flags.find((f) => f.code === "IMP"),
+    });
+  }
+}, [creatingTask, status, flags]);
 
   const handleSave = (field, value) => {
     setEditedTask((prevTask) => ({ ...prevTask, [field]: value }));
   };
 
-  const handleUserSave = (userId) => {
-    handleSave("userId", userId);
+  const handleUserSave = (user) => {
+    handleSave("user", user);
     setPopupMessage("Utilisateur changé");
     setIsSuccess(true);
     setPopupVisible(true);
   };
 
-  const saveChanges = () => {
-    const success = true;
+  const saveChanges = async () => {
+    const onUpdate = getCallback(route.params?.onUpdate);
+    let success = true;
+    let errorMsg = "";
+    if (!editedTask.name ||  editedTask.name == '') {
+      success = false;
+      errorMsg = "Le champs nom est requis";
+    }
+    if (!editedTask.name ||  editedTask.name == '') {
+      success = false;
+      errorMsg = "Le champs nom est requis";
+    }
+    if (!success) {
+      setPopupMessage(errorMsg);
+      setIsSuccess(false);
+      setPopupVisible(true);
+      return;
+    }
+    try {
+      let response;
+      if (creatingTask) {
+        response = await fetch(`https://${apiHost}/api/tasks`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: editedTask.name,
+            description: editedTask.description,
+            remaining_time: editedTask.remaining_time,
+            project_id: projet.id,
+            domain_item_status_id: editedTask.status.id,
+            domain_item_flag_id: editedTask.flag.id,
+            user_id: editedTask?.user?.id
+          }),
+        });
+      } else {
+        let tempTask = { ...editedTask };
+        if (editedTask.status.id) {
+          tempTask.domain_item_status_id = editedTask.status.id;
+        }
+        if (editedTask.flag.id) {
+          tempTask.domain_item_flag_id = editedTask.flag.id;
+        }
+        tempTask.user_id = tempTask?.user?.id;
+        console.log(tempTask);
+        response = await fetch(`https://${apiHost}/api/tasks/${editedTask.id}`, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(tempTask),
+        });
+      }
+      if (!response.ok) {
+        let data = await response.json().catch(() => ({}));
+        errorMsg = data.message || data.detail || "Erreur inconnue du serveur.";
+        throw new Error(errorMsg);
+      }
+    } catch (error) {
+      console.error("Error saving task:", error);
+      success = false;
+      errorMsg = errorMsg || error.message;
+    }
+
     if (success) {
       setPopupMessage("Enregistrement réussi !");
       setIsSuccess(true);
+      onUpdate();
     } else {
-      setPopupMessage("Échec de l'enregistrement.");
+      setPopupMessage("Échec de l'enregistrement : " + errorMsg);
       setIsSuccess(false);
     }
     setPopupVisible(true);
@@ -89,8 +221,8 @@ const TaskDetailScreen = ({ route }) => {
       <View style={[MainStyles.mainCard, styles.mainCard]}>
         <View style={styles.propertyItem}>
           <EditableText
-            value={editedTask.nom}
-            onSave={(value) => handleSave("nom", value)}
+            value={editedTask.name}
+            onSave={(value) => handleSave("name", value)}
             label="Titre"
           />
         </View>
@@ -110,19 +242,12 @@ const TaskDetailScreen = ({ route }) => {
             <View style={styles.avatarSecondContainer}>
               <Image
                 style={MainStyles.avatar}
-                source={
-                  avatarImages[
-                    users.find((user) => user.id === editedTask.userId)
-                      ?.avatar ?? "avatarUndefined"
-                  ]
-                }
+                source={{uri: buildAvatarUrl(editedTask.user)}}
               />
-              {editedTask.userId && (
+              {editedTask.user && (
                 <Text style={MainStyles.mx10}>
-                  {users
-                    .find((user) => user.id === editedTask.userId)
-                    .prenom.charAt(0) + "."}{" "}
-                  {users.find((user) => user.id === editedTask.userId).nom}
+                  {editedTask.user.first_name.charAt(0) + "."}{" "}
+                  {editedTask.user.name}
                 </Text>
               )}
               <Ionicons name="create-outline" size={22} />
@@ -131,7 +256,7 @@ const TaskDetailScreen = ({ route }) => {
           <View style={{ width: "50%" }}>
             <ItemSelector
               label={"Statut"}
-              selectedItem={editedTask.status ?? null}
+              selectedItem={editedTask.status?.code ?? "FAIRE"}
               onItemChange={(value) => handleSave("status", value)}
               items={status}
             />
@@ -139,15 +264,15 @@ const TaskDetailScreen = ({ route }) => {
         </View>
         <View style={styles.propertyItem}>
           <EditableNumber
-            value={editedTask.remainingTime ?? null}
-            onSave={(value) => handleSave("remainingTime", value)}
+            value={editedTask.remaining_time ?? null}
+            onSave={(value) => handleSave("remaining_time", value)}
             label="Restant"
           />
         </View>
         <ItemSelector
           label={"Importance"}
-          selectedItem={editedTask.importance ?? null}
-          onItemChange={(value) => handleSave("importance", value)}
+          selectedItem={editedTask.flag?.code ?? "IMP"}
+          onItemChange={(value) => handleSave("flag", value)}
           items={flags}
         />
       </View>
@@ -208,6 +333,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    maxWidth: "50%",
   },
 });
 

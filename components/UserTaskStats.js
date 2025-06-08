@@ -3,32 +3,31 @@ import { View, Text, StyleSheet } from "react-native";
 
 import TaskLabel from "./TaskLabel";
 import Colors from "../utils/styles/Colors";
-import { flags } from "../data/flags";
 
 const UserTaskStats = ({ tasks }) => {
   const totalRemainingTime = tasks.reduce(
-    (acc, task) => acc + (task.remainingTime ?? 0),
+    (acc, task) => acc + (task.remaining_time ?? 0),
     0,
   );
-  const tasksWithoutNull = tasks.filter((task) => task.remainingTime != null);
+  const tasksWithoutNull = tasks.filter((task) => task.remaining_time != null);
   const averageRemainingTime =
     tasksWithoutNull.length > 0
       ? totalRemainingTime / tasksWithoutNull.length
       : 0;
 
   const importanceLabels = tasks.reduce((acc, task) => {
-    const code = task.importance;
+    const code = task.flag.code;
     if (code) {
-      const label = flags.find((flag) => flag.code === code)?.label || code;
+      const label = task.flag.label;
       acc[code] = { label, count: (acc[code]?.count || 0) + 1 };
     }
     return acc;
   }, {});
 
   const statusLabels = tasks.reduce((acc, task) => {
-    const code = task.etat?.code;
+    const code = task.status?.code;
     if (code) {
-      const label = task.etat.label;
+      const label = task.status.label;
       acc[code] = { label, count: (acc[code]?.count || 0) + 1 };
     }
     return acc;
@@ -82,6 +81,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     columnGap: 5,
+    rowGap: 5,
   },
 });
 

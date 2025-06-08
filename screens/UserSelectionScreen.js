@@ -13,18 +13,11 @@ import { Ionicons } from "@expo/vector-icons";
 import MainStyles from "../utils/styles/MainStyles";
 import Colors from "../utils/styles/Colors";
 import { getCallback } from "../utils/CallbackManager";
+import { buildAvatarUrl } from "../utils/avatarUrlBuilder";
 
 const UserSelectionScreen = ({ route }) => {
   const { users, task, callbackId } = route.params;
   const navigation = useNavigation();
-
-  const avatarImages = {
-    "avatar1.png": require("../assets/avatar1.png"),
-    "avatar2.png": require("../assets/avatar2.png"),
-    "avatar3.png": require("../assets/avatar3.png"),
-    "avatar4.png": require("../assets/avatar4.png"),
-    "avatar5.png": require("../assets/avatar5.png"),
-  };
 
   const handleUserSelect = (userId) => {
     const callback = getCallback(callbackId);
@@ -37,13 +30,13 @@ const UserSelectionScreen = ({ route }) => {
   const renderUserItem = ({ item }) => (
     <TouchableOpacity
       style={styles.userItem}
-      onPress={() => handleUserSelect(item.id)}
+      onPress={() => handleUserSelect(item)}
     >
-      <Image style={styles.avatar} source={avatarImages[item.avatar]} />
+      <Image style={styles.avatar} source={{uri: buildAvatarUrl(item)}} />
       <Text>
-        {item.prenom} {item.nom}
+        {item.first_name} {item.name}
       </Text>
-      {item.id === task.userId && (
+      {item.id === task.user?.id && (
         <Ionicons
           name="checkmark-circle-outline"
           size={22}
